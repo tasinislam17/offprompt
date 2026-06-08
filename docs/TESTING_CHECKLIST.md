@@ -19,6 +19,8 @@
 - [ ] Each player receives one private prompt.
 - [ ] Players submit answers.
 - [ ] Host reveal shows answers only.
+- [ ] Answer reveal countdown lasts 5 seconds.
+- [ ] Unlimited discussion can be selected in setup.
 - [ ] Players vote.
 - [ ] Self-vote is unavailable.
 - [ ] Result reveals Off-Prompt player.
@@ -45,6 +47,7 @@
 - [ ] Tie vote in Party Mode gives Off Prompt the point.
 - [ ] No clear majority in Party Mode gives Off Prompt the point.
 - [ ] Disconnected player during voting does not block host from ending voting.
+- [ ] Disconnected players during voting do not cause one vote to auto-end the round.
 
 ## Reconnection
 

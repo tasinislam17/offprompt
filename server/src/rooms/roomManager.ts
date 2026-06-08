@@ -26,7 +26,7 @@ const defaultSettings: GameSettings = {
   criminalCount: 1,
   rounds: 5,
   safeLevel: "safe",
-  discussionSeconds: 90,
+  discussionSeconds: 0,
   votingSeconds: 60,
 };
 
@@ -70,7 +70,7 @@ function disconnectedMissingAnswerIds(room: RoomState, round: RoundState): strin
 function eligibleVoterIds(room: RoomState, round: RoundState): string[] {
   return round.participantIds.filter((playerId) => {
     const player = room.players.get(playerId);
-    return Boolean(player && !player.isEliminated && player.isConnected);
+    return Boolean(player && !player.isEliminated);
   });
 }
 
@@ -416,7 +416,7 @@ export class RoomManager {
     round.votes[player.id] = targetPlayerId;
     player.lastSeenAt = now();
 
-    if (this.allConnectedVotersSubmitted(room, round)) {
+    if (this.allEligibleVotersSubmitted(room, round)) {
       this.finalizeVoting(room);
     } else {
       this.touch(room);
@@ -706,7 +706,7 @@ export class RoomManager {
     this.touch(room);
   }
 
-  private allConnectedVotersSubmitted(room: RoomState, round: RoundState): boolean {
+  private allEligibleVotersSubmitted(room: RoomState, round: RoundState): boolean {
     const voters = eligibleVoterIds(room, round);
     return voters.length > 0 && voters.every((playerId) => round.votes[playerId] !== undefined);
   }

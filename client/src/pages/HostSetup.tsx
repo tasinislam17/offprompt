@@ -51,6 +51,71 @@ function NumberStepper({
   );
 }
 
+function DiscussionControl({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+}) {
+  const timedValue = value === 0 ? 90 : value;
+
+  return (
+    <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <p className="font-bold text-white">Discussion</p>
+        <p className="font-display text-2xl font-black text-brand-cyan">
+          {value === 0 ? "Unlimited" : `${value}s`}
+        </p>
+      </div>
+      <div className="mb-3 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={() => onChange(0)}
+          className={`min-h-11 rounded-lg border px-3 py-2 font-black uppercase transition ${
+            value === 0
+              ? "border-brand-cyan bg-brand-cyan/14 text-white"
+              : "border-white/10 bg-white/7 text-brand-muted hover:border-brand-cyan/50"
+          }`}
+        >
+          Unlimited
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange(timedValue)}
+          className={`min-h-11 rounded-lg border px-3 py-2 font-black uppercase transition ${
+            value !== 0
+              ? "border-brand-cyan bg-brand-cyan/14 text-white"
+              : "border-white/10 bg-white/7 text-brand-muted hover:border-brand-cyan/50"
+          }`}
+        >
+          Timed
+        </button>
+      </div>
+      {value !== 0 && (
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            icon={<Minus className="h-4 w-4" />}
+            disabled={value <= 30}
+            onClick={() => onChange(Math.max(30, value - 30))}
+            aria-label="Decrease discussion time"
+          />
+          <Button
+            type="button"
+            variant="secondary"
+            icon={<Plus className="h-4 w-4" />}
+            disabled={value >= 240}
+            onClick={() => onChange(Math.min(240, value + 30))}
+            aria-label="Increase discussion time"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function HostSetup() {
   const navigate = useNavigate();
   const [settings, setSettings] = useState<GameSettings>(defaultSettings);
@@ -183,11 +248,8 @@ export default function HostSetup() {
               max={10}
               onChange={(rounds) => update({ rounds })}
             />
-            <NumberStepper
-              label="Discuss sec"
+            <DiscussionControl
               value={settings.discussionSeconds}
-              min={30}
-              max={240}
               onChange={(discussionSeconds) => update({ discussionSeconds })}
             />
           </div>

@@ -22,6 +22,8 @@ import { StatusPill } from "../components/shared/StatusPill";
 import { getHostSession } from "../lib/session";
 import { emitWithAck, ensureSocketConnected, socket } from "../socket/socketClient";
 
+const ANSWER_REVEAL_COUNTDOWN_SECONDS = 5;
+
 function useTicker(active: boolean) {
   const [, setTick] = useState(0);
   useEffect(() => {
@@ -387,7 +389,7 @@ export default function HostGame() {
   const revealedAt = state?.currentRound?.revealedAt;
   const revealCountdown =
     revealedAt && state.currentRound?.status === "discussion"
-      ? Math.max(0, 3 - Math.floor((Date.now() - revealedAt) / 1000))
+      ? Math.max(0, ANSWER_REVEAL_COUNTDOWN_SECONDS - Math.floor((Date.now() - revealedAt) / 1000))
       : 0;
   useTicker(revealCountdown > 0);
 

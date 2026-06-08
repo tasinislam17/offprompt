@@ -196,3 +196,61 @@ describe("room manager prompt privacy", () => {
     );
   });
 });
+
+describe("voting disconnect behavior", () => {
+  it("does not auto-end voting when disconnected eligible players have not voted", () => {
+    const manager = new RoomManager([prompt], 60_000);
+    const hostToken = "host_vote_smoke_token_1234567890";
+    const host = manager.createRoom({
+      socketId: "host_socket",
+      hostSessionToken: hostToken,
+      settings: baseSettings,
+    });
+
+    const playerTokens = [
+      "player_vote_one_token_1234567890",
+      "player_vote_two_token_1234567890",
+      "player_vote_three_token_1234567890",
+    ];
+    const players = ["Ava", "Ben", "Cal"].map((name, index) =>
+      manager.joinPlayer({
+        roomCode: host.roomCode,
+        name,
+        playerSessionToken: playerTokens[index],
+        socketId: `vote_socket_${index}`,
+      })
+    );
+
+    for (const [index, joined] of players.entries()) {
+      manager.setReady(host.roomCode, joined.player.id, playerTokens[index], true);
+    }
+
+    manager.startGame(host.roomCode, hostToken);
+
+    for (const [index, joined] of players.entries()) {
+      manager.submitAnswer(host.roomCode, joined.player.id, playerTokens[index], `${joined.player.name} answer`);
+    }
+
+    manager.revealAnswers(host.roomCode, hostToken);
+    manager.startVoting(host.roomCode, hostToken);
+    manager.disconnectSocket("vote_socket_1");
+    manager.disconnectSocket("vote_socket_2");
+
+    const afterOneVote = manager.submitVote(
+      host.roomCode,
+      players[0].player.id,
+      playerTokens[0],
+      players[1].player.id
+    );
+    const hostState = manager.getHostState(host.roomCode);
+
+    expect(afterOneVote.status).toBe("voting");
+    expect(hostState.status).toBe("voting");
+    expect(hostState.currentRound?.voteProgress).toEqual({ submitted: 1, total: 3 });
+    expect(hostState.canEndVoting).toBe(true);
+
+    const ended = manager.endVoting(host.roomCode, hostToken);
+    expect(ended.status).toBe("round_result");
+    expect(ended.currentRound?.result).not.toBeNull();
+  });
+});

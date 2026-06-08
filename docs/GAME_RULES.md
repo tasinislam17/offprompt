@@ -9,6 +9,7 @@
 - Off-Prompt players receive the alternate prompt.
 - The host sees answers only, not prompts or roles before reveal.
 - Players discuss, then vote from phones.
+- Discussion can be unlimited or host-timed depending on setup.
 - Self-voting is disabled.
 - If a majority votes for an Off-Prompt player, all On-Prompt players score 1 point.
 - If there is no majority or the vote ties, Off Prompt scores 1 point.
@@ -32,4 +33,5 @@
 - The client never receives both prompt variants.
 - Answers are locked after submission.
 - Votes are locked after submission.
+- Voting auto-resolves only after every eligible active voter has voted. If players disconnect, the host can end voting manually.
 - Rooms are temporary and expire after inactivity.

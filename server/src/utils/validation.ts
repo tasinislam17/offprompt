@@ -57,6 +57,13 @@ export function maxCriminalCount(playerCount: number): number {
   return playerCount >= 7 ? 2 : 1;
 }
 
+function validateDiscussionSeconds(value: number): number {
+  if (value === 0) {
+    return 0;
+  }
+  return clampInteger(value, 30, 240);
+}
+
 export function validateSettings(settings: GameSettings): GameSettings {
   if (settings.mode !== "party" && settings.mode !== "case") {
     throw new Error("Choose Party Mode or Case Mode.");
@@ -66,7 +73,7 @@ export function validateSettings(settings: GameSettings): GameSettings {
   const rounds = clampInteger(settings.rounds, 3, 10);
   const offPromptCount = clampInteger(settings.offPromptCount, 1, maxOffPromptCount(playerCount));
   const criminalCount = clampInteger(settings.criminalCount, 1, maxCriminalCount(playerCount));
-  const discussionSeconds = clampInteger(settings.discussionSeconds, 30, 240);
+  const discussionSeconds = validateDiscussionSeconds(settings.discussionSeconds);
   const votingSeconds = clampInteger(settings.votingSeconds, 30, 180);
 
   if (!safeLevels.has(settings.safeLevel)) {
