@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Minus, Plus, Shield, Users } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, HelpCircle, Minus, Plus, Shield, Users } from "lucide-react";
 import type { GameMode, GameSettings, SafeLevel } from "@off-prompt/shared";
 import { Button } from "../components/shared/Button";
 import { Card } from "../components/shared/Card";
@@ -170,9 +170,16 @@ export default function HostSetup() {
   return (
     <PageShell>
       <div className="mb-5">
-        <Button variant="ghost" icon={<ArrowLeft className="h-4 w-4" />} onClick={() => navigate("/")}>
-          Back
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="ghost" icon={<ArrowLeft className="h-4 w-4" />} onClick={() => navigate("/")}>
+            Back
+          </Button>
+          <Link to="/how-to-play">
+            <Button variant="secondary" icon={<HelpCircle className="h-4 w-4" />}>
+              How To Play
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr]">

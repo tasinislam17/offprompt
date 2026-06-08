@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Gamepad2, LogIn, Play, Sparkles, Users } from "lucide-react";
+import { Gamepad2, HelpCircle, LogIn, Play, Sparkles, Users } from "lucide-react";
 import { Button } from "../components/shared/Button";
 import { Card } from "../components/shared/Card";
 import { Logo } from "../components/shared/Logo";
@@ -30,7 +30,7 @@ export default function Landing() {
                 Everyone answers a question. Someone answers the wrong one. The room decides who slipped.
               </p>
             </div>
-            <div className="flex w-full max-w-md flex-col gap-3 sm:flex-row">
+            <div className="flex w-full max-w-2xl flex-col gap-3 sm:flex-row">
               <Link className="block w-full sm:w-auto" to="/host/setup">
                 <Button size="lg" icon={<Play className="h-5 w-5" />} className="w-full sm:w-auto">
                   Host Game
@@ -39,6 +39,11 @@ export default function Landing() {
               <Link className="block w-full sm:w-auto" to="/join">
                 <Button variant="secondary" size="lg" icon={<LogIn className="h-5 w-5" />} className="w-full sm:w-auto">
                   Join Game
+                </Button>
+              </Link>
+              <Link className="block w-full sm:w-auto" to="/how-to-play">
+                <Button variant="ghost" size="lg" icon={<HelpCircle className="h-5 w-5" />} className="w-full sm:w-auto">
+                  How To Play
                 </Button>
               </Link>
             </div>
