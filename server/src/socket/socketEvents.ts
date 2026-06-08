@@ -1,0 +1,37 @@
+export const socketEvents = {
+  hostCreateRoom: "host:createRoom",
+  hostUpdateSettings: "host:updateSettings",
+  hostRejoin: "host:rejoin",
+  hostStartGame: "host:startGame",
+  hostRevealAnswers: "host:revealAnswers",
+  hostStartVoting: "host:startVoting",
+  hostEndVoting: "host:endVoting",
+  hostNextRound: "host:nextRound",
+  hostRestartGame: "host:restartGame",
+  hostCloseRoom: "host:closeRoom",
+  playerJoinRoom: "player:joinRoom",
+  playerRejoin: "player:rejoin",
+  playerSetReady: "player:setReady",
+  playerSubmitAnswer: "player:submitAnswer",
+  playerSubmitVote: "player:submitVote",
+  playerLeaveRoom: "player:leaveRoom",
+  roomCreated: "room:created",
+  roomLobbyUpdated: "room:lobbyUpdated",
+  hostState: "host:state",
+  playerState: "player:state",
+  gameStarted: "game:started",
+  roundPromptAssigned: "round:promptAssigned",
+  roundAnswerProgress: "round:answerProgress",
+  roundAnswersRevealed: "round:answersRevealed",
+  voteStarted: "vote:started",
+  voteProgress: "vote:progress",
+  voteResults: "vote:results",
+  roundEnded: "round:ended",
+  scoreboardUpdated: "scoreboard:updated",
+  gameEnded: "game:ended",
+  serverError: "server:error",
+} as const;
+
+export function roomChannel(roomCode: string): string {
+  return `room:${roomCode}`;
+}

@@ -1,0 +1,198 @@
+import { describe, expect, it } from "vitest";
+import type { GameSettings } from "@off-prompt/shared";
+import { renderPromptPair } from "../prompts/promptRenderer.js";
+import type { PromptPair } from "../prompts/promptTypes.js";
+import { RoomManager } from "../rooms/roomManager.js";
+import { getCaseWinner } from "../game/caseModeEngine.js";
+import { buildVoteBreakdown } from "../game/voting.js";
+import { applyPartyScoring } from "../game/scoring.js";
+import type { PlayerState } from "../types/game.js";
+import { generateRoomCode, isValidRoomCode } from "../utils/roomCode.js";
+
+const baseSettings: GameSettings = {
+  mode: "party",
+  playerCount: 3,
+  offPromptCount: 1,
+  criminalCount: 1,
+  rounds: 3,
+  safeLevel: "safe",
+  discussionSeconds: 90,
+  votingSeconds: 60,
+};
+
+const prompt: PromptPair = {
+  id: "test_001",
+  category: "Test",
+  type: "open",
+  modeCompatibility: ["party", "case"],
+  requiresTargetPlayer: false,
+  targetRule: null,
+  mainPrompt: "Name a blue object.",
+  offPrompt: "Name a purple object.",
+  answerFormat: "text",
+  minPlayers: 3,
+  maxPlayers: 10,
+  safeLevel: "safe",
+  tags: ["test"],
+};
+
+function player(id: string, name: string): PlayerState {
+  return {
+    id,
+    sessionToken: `${id}_session_token_1234567890`,
+    socketId: `${id}_socket`,
+    name,
+    score: 0,
+    isReady: true,
+    isConnected: true,
+    isEliminated: false,
+    joinedAt: Date.now(),
+    lastSeenAt: Date.now(),
+    role: null,
+  };
+}
+
+describe("room codes", () => {
+  it("generates readable valid room codes", () => {
+    const code = generateRoomCode();
+    expect(code).toHaveLength(5);
+    expect(isValidRoomCode(code)).toBe(true);
+  });
+});
+
+describe("prompt rendering", () => {
+  it("renders the same target player into both variants", () => {
+    const dynamicPrompt: PromptPair = {
+      ...prompt,
+      id: "dynamic_001",
+      requiresTargetPlayer: true,
+      targetRule: "random_active_player",
+      mainPrompt: "How loud is {player}?",
+      offPrompt: "How sneaky is {player}?",
+    };
+
+    const rendered = renderPromptPair(dynamicPrompt, [
+      { id: "p1", name: "Ava" },
+      { id: "p2", name: "Ben" },
+    ]);
+
+    expect(rendered.targetPlayerId).not.toBeNull();
+    const targetName = rendered.targetPlayerId === "p1" ? "Ava" : "Ben";
+    expect(rendered.mainPrompt).toContain(targetName);
+    expect(rendered.offPrompt).toContain(targetName);
+    expect(rendered.mainPrompt).not.toContain("{player}");
+  });
+});
+
+describe("party scoring", () => {
+  it("gives Off Prompt the point on a tie", () => {
+    const players = new Map([
+      ["p1", player("p1", "Ava")],
+      ["p2", player("p2", "Ben")],
+      ["p3", player("p3", "Cal")],
+    ]);
+    const voteBreakdown = buildVoteBreakdown({
+      candidateIds: ["p1", "p2", "p3"],
+      votes: { p1: "p3", p2: "p1" },
+      players,
+      offPromptPlayerIds: ["p3"],
+      criminalPlayerIds: [],
+      eliminatedPlayerId: null,
+    });
+
+    const result = applyPartyScoring({
+      players,
+      participantIds: ["p1", "p2", "p3"],
+      offPromptPlayerIds: ["p3"],
+      voteBreakdown,
+      roundNumber: 1,
+    });
+
+    expect(result.outcome).toBe("offPromptEscaped");
+    expect(players.get("p3")?.score).toBe(1);
+    expect(players.get("p1")?.score).toBe(0);
+  });
+
+  it("requires a majority to catch Off Prompt", () => {
+    const players = new Map([
+      ["p1", player("p1", "Ava")],
+      ["p2", player("p2", "Ben")],
+      ["p3", player("p3", "Cal")],
+      ["p4", player("p4", "Dee")],
+    ]);
+    const voteBreakdown = buildVoteBreakdown({
+      candidateIds: ["p1", "p2", "p3", "p4"],
+      votes: { p1: "p4", p2: "p4", p3: "p1", p4: "p2" },
+      players,
+      offPromptPlayerIds: ["p4"],
+      criminalPlayerIds: [],
+      eliminatedPlayerId: null,
+    });
+
+    const result = applyPartyScoring({
+      players,
+      participantIds: ["p1", "p2", "p3", "p4"],
+      offPromptPlayerIds: ["p4"],
+      voteBreakdown,
+      roundNumber: 1,
+    });
+
+    expect(result.outcome).toBe("offPromptEscaped");
+    expect(players.get("p4")?.score).toBe(1);
+  });
+});
+
+describe("case mode", () => {
+  it("detects civilian and criminal win conditions", () => {
+    const players = new Map([
+      ["p1", player("p1", "Ava")],
+      ["p2", player("p2", "Ben")],
+      ["p3", player("p3", "Cal")],
+      ["p4", player("p4", "Dee")],
+    ]);
+    const criminals = new Set(["p4"]);
+
+    expect(getCaseWinner(players, criminals)).toBeNull();
+    players.get("p4")!.isEliminated = true;
+    expect(getCaseWinner(players, criminals)).toBe("civilians");
+
+    players.get("p4")!.isEliminated = false;
+    players.get("p1")!.isEliminated = true;
+    players.get("p2")!.isEliminated = true;
+    expect(getCaseWinner(players, criminals)).toBe("criminals");
+  });
+});
+
+describe("room manager prompt privacy", () => {
+  it("sends each player only their private prompt and never sends prompts to host", () => {
+    const manager = new RoomManager([prompt], 60_000);
+    const host = manager.createRoom({
+      socketId: "host_socket",
+      hostSessionToken: "host_session_token_1234567890",
+      settings: baseSettings,
+    });
+
+    const p1Token = "player_one_session_token_1234567890";
+    const p2Token = "player_two_session_token_1234567890";
+    const p3Token = "player_three_session_token_1234567890";
+    const p1 = manager.joinPlayer({ roomCode: host.roomCode, name: "Ava", playerSessionToken: p1Token, socketId: "s1" });
+    const p2 = manager.joinPlayer({ roomCode: host.roomCode, name: "Ben", playerSessionToken: p2Token, socketId: "s2" });
+    const p3 = manager.joinPlayer({ roomCode: host.roomCode, name: "Cal", playerSessionToken: p3Token, socketId: "s3" });
+
+    manager.setReady(host.roomCode, p1.player.id, p1Token, true);
+    manager.setReady(host.roomCode, p2.player.id, p2Token, true);
+    manager.setReady(host.roomCode, p3.player.id, p3Token, true);
+    const hostState = manager.startGame(host.roomCode, "host_session_token_1234567890");
+
+    expect(hostState.currentRound?.answers).toEqual([]);
+    expect(JSON.stringify(hostState)).not.toContain(prompt.mainPrompt);
+    expect(JSON.stringify(hostState)).not.toContain(prompt.offPrompt);
+
+    const privatePrompts = [p1, p2, p3].map((joined) =>
+      manager.getPlayerState(host.roomCode, joined.player.id).currentRound?.privatePrompt
+    );
+    expect(privatePrompts.every((privatePrompt) => privatePrompt === prompt.mainPrompt || privatePrompt === prompt.offPrompt)).toBe(
+      true
+    );
+  });
+});
