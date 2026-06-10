@@ -442,13 +442,27 @@ export class RoomManager {
     if (room.status !== "round_result" || !round.result) {
       throw new Error("The next round can start after the current result.");
     }
-    if (room.settings.mode === "party" && round.number >= room.settings.rounds) {
+    if (isFinalPartyRound(room)) {
       room.finalResult = round.result;
       room.status = "game_over";
       round.status = "game_over";
       return this.getHostState(room.roomCode);
     }
     this.startNextRound(room);
+    return this.getHostState(room.roomCode);
+  }
+
+  revealFinalWinner(roomCode: string, hostSessionToken: string): HostRoomState {
+    const room = this.requireHost(roomCode, hostSessionToken);
+    const round = this.requireCurrentRound(room);
+    if (!isFinalPartyRound(room) || !round.result) {
+      throw new Error("Final winner can only be revealed after the last party round result.");
+    }
+
+    room.finalResult = round.result;
+    room.status = "game_over";
+    round.status = "game_over";
+    this.touch(room);
     return this.getHostState(room.roomCode);
   }
 
@@ -698,7 +712,7 @@ export class RoomManager {
       round.result = caseResult;
     }
 
-    round.status = round.result.winningTeam || isFinalPartyRound(room) ? "game_over" : "round_result";
+    round.status = round.result.winningTeam ? "game_over" : "round_result";
     room.status = round.status;
     room.roundHistory.push(historyFromResult(room, round.result));
     if (round.status === "game_over") {
@@ -719,11 +733,13 @@ export class RoomManager {
   private toHostRoundView(room: RoomState, round: RoundState): HostRoomState["currentRound"] {
     const submitted = Object.keys(round.answers).length;
     const voters = eligibleVoterIds(room, round);
-    const answers =
+    const promptIsPublic =
       round.status === "discussion" ||
       round.status === "voting" ||
       round.status === "round_result" ||
-      round.status === "game_over"
+      round.status === "game_over";
+    const answers =
+      promptIsPublic
         ? round.participantIds
             .map((playerId) => {
               const player = room.players.get(playerId);
@@ -745,6 +761,7 @@ export class RoomManager {
       roundNumber: round.number,
       status: round.status,
       category: round.category,
+      publicPrompt: promptIsPublic ? round.mainPrompt : null,
       answerFormat: round.answerFormat,
       participantCount: round.participantIds.length,
       answerProgress: {

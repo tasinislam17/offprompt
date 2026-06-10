@@ -210,6 +210,7 @@ describe("room manager prompt privacy", () => {
     const hostState = manager.startGame(host.roomCode, "host_session_token_1234567890");
 
     expect(hostState.currentRound?.answers).toEqual([]);
+    expect(hostState.currentRound?.publicPrompt).toBeNull();
     expect(JSON.stringify(hostState)).not.toContain(prompt.mainPrompt);
     expect(JSON.stringify(hostState)).not.toContain(prompt.offPrompt);
 
@@ -219,6 +220,15 @@ describe("room manager prompt privacy", () => {
     expect(privatePrompts.every((privatePrompt) => privatePrompt === prompt.mainPrompt || privatePrompt === prompt.offPrompt)).toBe(
       true
     );
+
+    manager.submitAnswer(host.roomCode, p1.player.id, p1Token, "Blue chair");
+    manager.submitAnswer(host.roomCode, p2.player.id, p2Token, "Blue cup");
+    manager.submitAnswer(host.roomCode, p3.player.id, p3Token, "Purple lamp");
+    const revealed = manager.revealAnswers(host.roomCode, "host_session_token_1234567890");
+
+    expect(revealed.currentRound?.publicPrompt).toBe(prompt.mainPrompt);
+    expect(JSON.stringify(revealed)).toContain(prompt.mainPrompt);
+    expect(JSON.stringify(revealed)).not.toContain(prompt.offPrompt);
   });
 });
 
@@ -277,5 +287,116 @@ describe("voting disconnect behavior", () => {
     const ended = manager.endVoting(host.roomCode, hostToken);
     expect(ended.status).toBe("round_result");
     expect(ended.currentRound?.result).not.toBeNull();
+  });
+
+  it("rejoins a player into the current voting or result phase", () => {
+    const manager = new RoomManager([prompt], 60_000);
+    const hostToken = "host_rejoin_smoke_token_1234567890";
+    const host = manager.createRoom({
+      socketId: "host_socket",
+      hostSessionToken: hostToken,
+      settings: baseSettings,
+    });
+
+    const playerTokens = [
+      "player_rejoin_one_token_1234567890",
+      "player_rejoin_two_token_1234567890",
+      "player_rejoin_three_token_1234567890",
+    ];
+    const players = ["Ava", "Ben", "Cal"].map((name, index) =>
+      manager.joinPlayer({
+        roomCode: host.roomCode,
+        name,
+        playerSessionToken: playerTokens[index],
+        socketId: `rejoin_socket_${index}`,
+      })
+    );
+
+    for (const [index, joined] of players.entries()) {
+      manager.setReady(host.roomCode, joined.player.id, playerTokens[index], true);
+    }
+
+    manager.startGame(host.roomCode, hostToken);
+    for (const [index, joined] of players.entries()) {
+      manager.submitAnswer(host.roomCode, joined.player.id, playerTokens[index], `${joined.player.name} answer`);
+    }
+    manager.revealAnswers(host.roomCode, hostToken);
+    manager.startVoting(host.roomCode, hostToken);
+
+    manager.disconnectSocket("rejoin_socket_1");
+    const votingRejoin = manager.reconnectPlayer({
+      roomCode: host.roomCode,
+      playerId: players[1].player.id,
+      playerSessionToken: playerTokens[1],
+      socketId: "rejoin_socket_1b",
+    });
+    expect(votingRejoin.status).toBe("voting");
+    expect(votingRejoin.currentRound?.eligibleVoteTargets.length).toBeGreaterThan(0);
+
+    manager.submitVote(host.roomCode, players[0].player.id, playerTokens[0], players[1].player.id);
+    manager.submitVote(host.roomCode, players[1].player.id, playerTokens[1], players[2].player.id);
+    const resultState = manager.submitVote(host.roomCode, players[2].player.id, playerTokens[2], players[1].player.id);
+    expect(resultState.status).toBe("round_result");
+
+    manager.disconnectSocket("rejoin_socket_1b");
+    const resultRejoin = manager.reconnectPlayer({
+      roomCode: host.roomCode,
+      playerId: players[1].player.id,
+      playerSessionToken: playerTokens[1],
+      socketId: "rejoin_socket_1c",
+    });
+    expect(resultRejoin.status).toBe("round_result");
+    expect(resultRejoin.currentRound?.result).not.toBeNull();
+  });
+
+  it("shows the final party round result before revealing the overall winner", () => {
+    const manager = new RoomManager([prompt], 60_000);
+    const hostToken = "host_final_smoke_token_1234567890";
+    const host = manager.createRoom({
+      socketId: "host_socket",
+      hostSessionToken: hostToken,
+      settings: baseSettings,
+    });
+
+    const playerTokens = [
+      "player_final_one_token_1234567890",
+      "player_final_two_token_1234567890",
+      "player_final_three_token_1234567890",
+    ];
+    const players = ["Ava", "Ben", "Cal"].map((name, index) =>
+      manager.joinPlayer({
+        roomCode: host.roomCode,
+        name,
+        playerSessionToken: playerTokens[index],
+        socketId: `final_socket_${index}`,
+      })
+    );
+
+    for (const [index, joined] of players.entries()) {
+      manager.setReady(host.roomCode, joined.player.id, playerTokens[index], true);
+    }
+
+    manager.startGame(host.roomCode, hostToken);
+    const room = manager.getRoom(host.roomCode);
+    expect(room?.currentRound).not.toBeNull();
+    room!.currentRound!.number = baseSettings.rounds;
+
+    for (const [index, joined] of players.entries()) {
+      manager.submitAnswer(host.roomCode, joined.player.id, playerTokens[index], `${joined.player.name} answer`);
+    }
+    manager.revealAnswers(host.roomCode, hostToken);
+    manager.startVoting(host.roomCode, hostToken);
+    manager.submitVote(host.roomCode, players[0].player.id, playerTokens[0], players[1].player.id);
+    manager.submitVote(host.roomCode, players[1].player.id, playerTokens[1], players[2].player.id);
+    manager.submitVote(host.roomCode, players[2].player.id, playerTokens[2], players[1].player.id);
+
+    const finalRoundResult = manager.getHostState(host.roomCode);
+    expect(finalRoundResult.status).toBe("round_result");
+    expect(finalRoundResult.currentRound?.result).not.toBeNull();
+    expect(finalRoundResult.finalResult).toBeNull();
+
+    const finalWinner = manager.revealFinalWinner(host.roomCode, hostToken);
+    expect(finalWinner.status).toBe("game_over");
+    expect(finalWinner.finalResult).not.toBeNull();
   });
 });

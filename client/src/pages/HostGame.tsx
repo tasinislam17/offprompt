@@ -42,6 +42,15 @@ function progressPercent(submitted: number, total: number): number {
   return Math.min(100, Math.round((submitted / total) * 100));
 }
 
+function isFinalPartyRound(state: HostRoomState): boolean {
+  return (
+    state.settings.mode === "party" &&
+    state.status === "round_result" &&
+    Boolean(state.currentRound?.result) &&
+    (state.currentRound?.roundNumber ?? 0) >= state.settings.rounds
+  );
+}
+
 function finalTitle(state: HostRoomState): string {
   if (state.settings.mode === "case") {
     return state.finalResult?.winningTeam === "criminals" ? "Criminals Win" : "Civilians Win";
@@ -51,34 +60,91 @@ function finalTitle(state: HostRoomState): string {
   return winners.length > 1 ? "Shared Victory" : `${winners[0] ?? "Winner"} Wins`;
 }
 
-function VoteBreakdown({ result }: { result: RoundResultView }) {
-  const maxVotes = Math.max(1, ...result.voteBreakdown.map((item) => item.voteCount));
+function resultTitle(state: HostRoomState, result: RoundResultView): string {
+  if (state.settings.mode === "party") {
+    return result.outcome === "onPromptCaught" ? "On-Prompt Team Wins" : "Off-Prompt Escaped";
+  }
+  if (result.winningTeam === "criminals") return "Criminals Win";
+  if (result.winningTeam === "civilians") return "Civilians Win";
+  if (result.outcome === "caseTie") return "Vote Tied";
+  if (result.outcome === "caseNoVotes") return "No Elimination";
+  return "Player Eliminated";
+}
+
+function pointsAwardedText(state: HostRoomState, result: RoundResultView): string {
+  if (state.settings.mode === "party") {
+    return result.outcome === "onPromptCaught" ? "On-Prompt players +1" : "Off-Prompt +1";
+  }
+  const eliminatedName = result.eliminatedPlayerId
+    ? state.players.find((player) => player.id === result.eliminatedPlayerId)?.name
+    : null;
+  return eliminatedName ? `${eliminatedName} was eliminated` : "No one was eliminated";
+}
+
+function PublicPromptCard({ prompt }: { prompt: string | null }) {
+  if (!prompt) {
+    return null;
+  }
 
   return (
-    <div className="space-y-3">
-      {result.voteBreakdown.map((item) => (
-        <div key={item.playerId} className="rounded-lg border border-white/10 bg-white/7 p-4">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-xl font-black text-white">{item.playerName}</p>
-              <p className="mt-1 text-sm font-semibold text-brand-muted">
-                {item.voteCount} vote{item.voteCount === 1 ? "" : "s"}
-                {item.voterNames.length > 0 ? ` from ${item.voterNames.join(", ")}` : ""}
-              </p>
+    <div className="animate-panel-in rounded-lg border border-brand-cyan/35 bg-brand-blue/14 p-4 shadow-glow">
+      <p className="text-xs font-black uppercase tracking-wide text-brand-cyan">Public question</p>
+      <p className="mt-2 text-2xl font-black leading-tight text-white lg:text-3xl">{prompt}</p>
+    </div>
+  );
+}
+
+function VoteBreakdown({ result }: { result: RoundResultView }) {
+  const maxVotes = Math.max(1, ...result.voteBreakdown.map((item) => item.voteCount));
+  const voteRows = result.voteBreakdown.flatMap((item) =>
+    item.voterNames.map((voterName) => ({
+      voterName,
+      targetName: item.playerName,
+    }))
+  );
+
+  return (
+    <div className="grid gap-3 xl:grid-cols-[1fr_0.86fr]">
+      <div className="space-y-2">
+        {result.voteBreakdown.map((item) => (
+          <div key={item.playerId} className="rounded-lg border border-white/10 bg-white/7 p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="truncate text-lg font-black text-white">{item.playerName}</p>
+                <p className="text-sm font-semibold text-brand-muted">
+                  {item.voteCount} vote{item.voteCount === 1 ? "" : "s"}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                {item.isOffPrompt && <StatusPill label="Off Prompt" tone="purple" />}
+                {item.wasEliminated && <StatusPill label="Eliminated" tone="danger" />}
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              {item.isOffPrompt && <StatusPill label="Off Prompt" tone="purple" />}
-              {item.wasEliminated && <StatusPill label="Eliminated" tone="danger" />}
+            <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full origin-left animate-bar-grow rounded-full bg-gradient-to-r from-brand-purple to-brand-cyan"
+                style={{ width: `${Math.max(5, (item.voteCount / maxVotes) * 100)}%` }}
+              />
             </div>
           </div>
-          <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
-            <div
-              className="h-full origin-left animate-bar-grow rounded-full bg-gradient-to-r from-brand-purple to-brand-cyan"
-              style={{ width: `${Math.max(4, (item.voteCount / maxVotes) * 100)}%` }}
-            />
-          </div>
+        ))}
+      </div>
+      <div className="rounded-lg border border-white/10 bg-white/7 p-3">
+        <p className="mb-2 text-xs font-black uppercase text-brand-cyan">Vote trail</p>
+        <div className="space-y-2">
+          {voteRows.length > 0 ? (
+            voteRows.map((item, index) => (
+              <div key={`${item.voterName}-${item.targetName}-${index}`} className="rounded-md bg-white/7 px-3 py-2 text-sm font-bold text-white">
+                <span className="text-brand-cyan">{item.voterName}</span>
+                <span className="text-brand-muted"> voted for </span>
+                {item.targetName}
+              </div>
+            ))
+          ) : (
+            <p className="text-sm font-semibold text-brand-muted">No votes were locked.</p>
+          )}
         </div>
-      ))}
+      </div>
     </div>
   );
 }
@@ -235,22 +301,24 @@ function DiscussionView({ state, countdown, onStartVoting }: { state: HostRoomSt
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <StatusPill label={`Round ${round.roundNumber}`} tone="blue" />
-          <h1 className="mt-3 font-display text-5xl font-black text-white">Read the room</h1>
+          <h1 className="mt-3 font-display text-4xl font-black text-white md:text-5xl">Read the room</h1>
         </div>
         <Button size="lg" icon={<Vote className="h-5 w-5" />} onClick={onStartVoting}>
           Start Voting
         </Button>
       </div>
 
+      <PublicPromptCard prompt={round.publicPrompt} />
+
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {round.answers.map((answer, index) => (
           <div
             key={answer.playerId}
-            className="animate-panel-in rounded-lg border border-white/12 bg-white/8 p-5 shadow-blue"
+            className="animate-panel-in rounded-lg border border-white/12 bg-white/8 p-4 shadow-blue"
             style={{ animationDelay: `${index * 70}ms` }}
           >
             <p className="text-sm font-black uppercase text-brand-cyan">{answer.playerName}</p>
-            <p className="mt-3 text-3xl font-black leading-tight text-white md:text-4xl">{answer.answer}</p>
+            <p className="mt-3 text-2xl font-black leading-tight text-white md:text-3xl">{answer.answer}</p>
           </div>
         ))}
       </div>
@@ -269,9 +337,10 @@ function VotingView({ state, onEndVoting }: { state: HostRoomState; onEndVoting:
     <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
       <Card className="space-y-5">
         <StatusPill label="Vote open" tone="warning" />
-        <h1 className="font-display text-5xl font-black text-white md:text-7xl">
+        <h1 className="font-display text-4xl font-black text-white md:text-5xl">
           Who was {state.settings.mode === "case" ? "suspicious" : "Off Prompt"}?
         </h1>
+        <PublicPromptCard prompt={round.publicPrompt} />
         <div>
           <div className="mb-3 flex items-end justify-between">
             <p className="text-lg font-bold text-brand-muted">Vote locks</p>
@@ -298,7 +367,7 @@ function VotingView({ state, onEndVoting }: { state: HostRoomState; onEndVoting:
           {round.answers.map((answer) => (
             <div key={answer.playerId} className="rounded-lg border border-white/10 bg-white/7 p-4">
               <p className="text-sm font-black uppercase text-brand-cyan">{answer.playerName}</p>
-              <p className="mt-2 text-2xl font-black text-white">{answer.answer}</p>
+              <p className="mt-2 text-xl font-black text-white">{answer.answer}</p>
             </div>
           ))}
         </div>
@@ -307,7 +376,15 @@ function VotingView({ state, onEndVoting }: { state: HostRoomState; onEndVoting:
   );
 }
 
-function ResultView({ state, onNextRound }: { state: HostRoomState; onNextRound: () => void }) {
+function ResultView({
+  state,
+  onNextRound,
+  onRevealFinalWinner,
+}: {
+  state: HostRoomState;
+  onNextRound: () => void;
+  onRevealFinalWinner: () => void;
+}) {
   const result = state.currentRound?.result ?? state.finalResult;
   if (!result) {
     return null;
@@ -317,22 +394,30 @@ function ResultView({ state, onNextRound }: { state: HostRoomState; onNextRound:
     .map((playerId) => state.players.find((player) => player.id === playerId)?.name)
     .filter(Boolean)
     .join(", ");
+  const finalPartyRound = isFinalPartyRound(state);
 
   return (
-    <div className="grid gap-5 xl:grid-cols-[1fr_0.9fr]">
-      <Card className="space-y-5">
-        <StatusPill label={`Round ${result.roundNumber} result`} tone="purple" />
-        <h1 className="font-display text-5xl font-black text-white md:text-7xl">{result.outcomeText}</h1>
+    <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr]">
+      <Card className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <StatusPill label={`Round ${result.roundNumber} result`} tone="purple" />
+          <StatusPill label={pointsAwardedText(state, result)} tone={state.settings.mode === "party" ? "success" : "blue"} />
+        </div>
+        <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+          <h1 className="font-display text-4xl font-black text-white md:text-5xl">{resultTitle(state, result)}</h1>
+          <p className="mt-3 text-lg font-bold text-brand-muted">{result.outcomeText}</p>
+        </div>
+        <PublicPromptCard prompt={state.currentRound?.publicPrompt ?? null} />
         {offPromptNames && state.settings.mode === "party" && (
-          <div className="rounded-lg border border-brand-purple/45 bg-brand-purple/14 p-5">
+          <div className="rounded-lg border border-brand-purple/45 bg-brand-purple/14 p-4">
             <p className="text-sm font-black uppercase text-brand-cyan">Off Prompt</p>
-            <p className="mt-2 font-display text-4xl font-black text-white">{offPromptNames}</p>
+            <p className="mt-2 font-display text-3xl font-black text-white">{offPromptNames}</p>
           </div>
         )}
         {result.criminalPlayerIds.length > 0 && (
-          <div className="rounded-lg border border-danger/45 bg-danger/12 p-5">
+          <div className="rounded-lg border border-danger/45 bg-danger/12 p-4">
             <p className="text-sm font-black uppercase text-danger">Criminals</p>
-            <p className="mt-2 font-display text-4xl font-black text-white">
+            <p className="mt-2 font-display text-3xl font-black text-white">
               {result.criminalPlayerIds
                 .map((playerId) => state.players.find((player) => player.id === playerId)?.name)
                 .filter(Boolean)
@@ -342,8 +427,13 @@ function ResultView({ state, onNextRound }: { state: HostRoomState; onNextRound:
         )}
         <VoteBreakdown result={result} />
         {state.status !== "game_over" && (
-          <Button size="lg" className="w-full" icon={<Send className="h-5 w-5" />} onClick={onNextRound}>
-            Next Round
+          <Button
+            size="lg"
+            className="w-full"
+            icon={finalPartyRound ? <Trophy className="h-5 w-5" /> : <Send className="h-5 w-5" />}
+            onClick={finalPartyRound ? onRevealFinalWinner : onNextRound}
+          >
+            {finalPartyRound ? "Reveal Final Winner" : "Next Round"}
           </Button>
         )}
       </Card>
@@ -359,7 +449,7 @@ function GameOverView({ state, onRestart }: { state: HostRoomState; onRestart: (
         <div className="max-w-3xl space-y-5 py-8">
           <Trophy className="mx-auto h-16 w-16 text-warning" />
           <StatusPill label="Final result" tone="success" />
-          <h1 className="font-display text-6xl font-black text-white md:text-8xl">{finalTitle(state)}</h1>
+          <h1 className="font-display text-5xl font-black text-white md:text-7xl">{finalTitle(state)}</h1>
           <p className="text-xl font-semibold text-brand-muted">{state.finalResult?.outcomeText ?? "Game complete."}</p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Button size="lg" icon={<RefreshCw className="h-5 w-5" />} onClick={onRestart}>
@@ -507,7 +597,13 @@ export default function HostGame() {
           <DiscussionView state={state} countdown={revealCountdown} onStartVoting={() => hostAction("host:startVoting")} />
         )}
         {state.status === "voting" && <VotingView state={state} onEndVoting={() => hostAction("host:endVoting")} />}
-        {state.status === "round_result" && <ResultView state={state} onNextRound={() => hostAction("host:nextRound")} />}
+        {state.status === "round_result" && (
+          <ResultView
+            state={state}
+            onNextRound={() => hostAction("host:nextRound")}
+            onRevealFinalWinner={() => hostAction("host:revealFinalWinner")}
+          />
+        )}
         {state.status === "game_over" && <GameOverView state={state} onRestart={() => hostAction("host:restartGame")} />}
       </div>
     </main>

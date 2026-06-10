@@ -228,6 +228,13 @@ export function registerSocketHandlers(io: Server, manager: RoomManager): void {
       });
     });
 
+    socket.on(socketEvents.hostRevealFinalWinner, (rawPayload: unknown, callback?: Ack) => {
+      handle(socket, manager, io, rawPayload, callback, () => {
+        const payload = hostRoomSchema.parse(rawPayload);
+        return manager.revealFinalWinner(payload.roomCode, payload.hostSessionToken);
+      });
+    });
+
     socket.on(socketEvents.hostRestartGame, (rawPayload: unknown, callback?: Ack) => {
       handle(socket, manager, io, rawPayload, callback, () => {
         const payload = hostRoomSchema.parse(rawPayload);

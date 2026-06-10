@@ -61,6 +61,12 @@ const io = new Server(httpServer, {
   cors: {
     origin: corsOrigin,
   },
+  pingInterval: 25_000,
+  pingTimeout: 60_000,
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 120_000,
+    skipMiddlewares: true,
+  },
 });
 
 registerSocketHandlers(io, roomManager);

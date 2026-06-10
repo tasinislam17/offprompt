@@ -84,6 +84,7 @@ export type HostRoundView = {
   roundNumber: number;
   status: RoomStatus;
   category: string;
+  publicPrompt: string | null;
   answerFormat: AnswerFormat;
   participantCount: number;
   answerProgress: {

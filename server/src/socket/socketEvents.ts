@@ -7,6 +7,7 @@ export const socketEvents = {
   hostStartVoting: "host:startVoting",
   hostEndVoting: "host:endVoting",
   hostNextRound: "host:nextRound",
+  hostRevealFinalWinner: "host:revealFinalWinner",
   hostRestartGame: "host:restartGame",
   hostCloseRoom: "host:closeRoom",
   playerJoinRoom: "player:joinRoom",

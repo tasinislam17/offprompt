@@ -29,6 +29,7 @@ export type RoundState = {
   status: RoomStatus;
   promptPairId: string;
   category: string;
+  mainPrompt: string;
   answerFormat: AnswerFormat;
   targetPlayerId: string | null;
   participantIds: string[];

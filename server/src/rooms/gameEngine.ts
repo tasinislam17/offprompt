@@ -73,6 +73,7 @@ export function createRound({
     status: "answering",
     promptPairId: promptPair.id,
     category: promptPair.category,
+    mainPrompt: renderedPrompt.mainPrompt,
     answerFormat: promptPair.answerFormat,
     targetPlayerId: renderedPrompt.targetPlayerId,
     participantIds,

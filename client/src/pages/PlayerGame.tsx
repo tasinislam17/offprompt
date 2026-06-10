@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Home, Send, Shield, Vote } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Home, RefreshCw, Send, Shield, Vote } from "lucide-react";
 import type { PlayerRoomState, PublicPlayer } from "@off-prompt/shared";
 import { Button } from "../components/shared/Button";
 import { Card } from "../components/shared/Card";
@@ -10,6 +10,37 @@ import { Scoreboard } from "../components/shared/Scoreboard";
 import { StatusPill } from "../components/shared/StatusPill";
 import { clearPlayerSession, getPlayerSession } from "../lib/session";
 import { emitWithAck, ensureSocketConnected, socket } from "../socket/socketClient";
+
+type SyncStatus = "syncing" | "live" | "offline" | "stale";
+
+function syncLabel(status: SyncStatus): string {
+  if (status === "syncing") return "Syncing";
+  if (status === "live") return "Live";
+  if (status === "offline") return "Offline";
+  return "Tap to sync";
+}
+
+function syncTone(status: SyncStatus): "success" | "warning" | "danger" | "blue" {
+  if (status === "live") return "success";
+  if (status === "syncing") return "blue";
+  if (status === "offline") return "danger";
+  return "warning";
+}
+
+function playerResultTitle(state: PlayerRoomState): string {
+  const result = state.currentRound?.result ?? state.finalResult;
+  if (!result) {
+    return "Result";
+  }
+  if (state.settings.mode === "party") {
+    return result.outcome === "onPromptCaught" ? "On-Prompt Team Wins" : "Off-Prompt Escaped";
+  }
+  if (result.winningTeam === "criminals") return "Criminals Win";
+  if (result.winningTeam === "civilians") return "Civilians Win";
+  if (result.outcome === "caseTie") return "Vote Tied";
+  if (result.outcome === "caseNoVotes") return "No Elimination";
+  return "Player Eliminated";
+}
 
 function PlayerList({ players }: { players: PublicPlayer[] }) {
   return (
@@ -192,12 +223,17 @@ function ResultPlayerView({ state }: { state: PlayerRoomState }) {
   if (!result) {
     return null;
   }
+  const finalPartyRound =
+    state.settings.mode === "party" &&
+    state.status === "round_result" &&
+    (state.currentRound?.roundNumber ?? 0) >= state.settings.rounds;
 
   return (
     <div className="space-y-4">
       <Card className="space-y-4 text-center">
         <StatusPill label="Reveal" tone="purple" />
-        <h1 className="font-display text-4xl font-black text-white">{result.outcomeText}</h1>
+        <h1 className="font-display text-4xl font-black text-white">{playerResultTitle(state)}</h1>
+        <p className="font-semibold text-brand-muted">{result.outcomeText}</p>
         {state.roleReveal && (
           <div className="rounded-lg border border-brand-cyan/35 bg-white/8 p-4">
             <p className="text-sm font-black uppercase text-brand-cyan">You were</p>
@@ -207,7 +243,10 @@ function ResultPlayerView({ state }: { state: PlayerRoomState }) {
       </Card>
       <Scoreboard players={state.players} />
       {state.status !== "game_over" && (
-        <WaitingView title="Next round soon" body="The host will advance when the room is ready." />
+        <WaitingView
+          title={finalPartyRound ? "Final reveal soon" : "Next round soon"}
+          body={finalPartyRound ? "The host will reveal the overall winner." : "The host will advance when the room is ready."}
+        />
       )}
     </div>
   );
@@ -258,6 +297,34 @@ export default function PlayerGame() {
   const [error, setError] = useState<string | null>(null);
   const [answer, setAnswer] = useState("");
   const [selectedTarget, setSelectedTarget] = useState<string | null>(null);
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>("syncing");
+  const syncInFlight = useRef(false);
+
+  const syncNow = useCallback(async () => {
+    if (!session || syncInFlight.current) {
+      return;
+    }
+
+    syncInFlight.current = true;
+    setSyncStatus("syncing");
+
+    try {
+      const response = await emitWithAck<PlayerRoomState>("player:rejoin", session);
+      if (response.ok) {
+        setState(response.data);
+        setError(null);
+        setSyncStatus("live");
+      } else {
+        setError(response.error);
+        setSyncStatus(socket.connected ? "stale" : "offline");
+      }
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Connection failed.");
+      setSyncStatus(socket.connected ? "stale" : "offline");
+    } finally {
+      syncInFlight.current = false;
+    }
+  }, [session]);
 
   useEffect(() => {
     if (!session) {
@@ -267,6 +334,7 @@ export default function PlayerGame() {
     function onState(nextState: PlayerRoomState) {
       setState(nextState);
       setError(null);
+      setSyncStatus("live");
       if (nextState.currentRound?.status !== "voting") {
         setSelectedTarget(null);
       }
@@ -274,27 +342,52 @@ export default function PlayerGame() {
 
     function onError(payload: { message: string }) {
       setError(payload.message);
+      setSyncStatus(socket.connected ? "stale" : "offline");
+    }
+
+    function onDisconnect() {
+      setSyncStatus("offline");
+    }
+
+    function onConnectError() {
+      setSyncStatus("offline");
+    }
+
+    function onWake() {
+      if (!document.hidden) {
+        void syncNow();
+      }
     }
 
     socket.on("player:state", onState);
     socket.on("server:error", onError);
+    socket.on("connect", syncNow);
+    socket.on("disconnect", onDisconnect);
+    socket.on("connect_error", onConnectError);
+    socket.io.on("reconnect", syncNow);
+    window.addEventListener("focus", onWake);
+    window.addEventListener("pageshow", onWake);
+    document.addEventListener("visibilitychange", onWake);
 
-    ensureSocketConnected()
-      .then(() => emitWithAck<PlayerRoomState>("player:rejoin", session))
-      .then((response) => {
-        if (response.ok) {
-          setState(response.data);
-        } else {
-          setError(response.error);
-        }
-      })
-      .catch((caught) => setError(caught instanceof Error ? caught.message : "Connection failed."));
+    void ensureSocketConnected()
+      .then(syncNow)
+      .catch(() => {
+        setSyncStatus("offline");
+        void syncNow();
+      });
 
     return () => {
       socket.off("player:state", onState);
       socket.off("server:error", onError);
+      socket.off("connect", syncNow);
+      socket.off("disconnect", onDisconnect);
+      socket.off("connect_error", onConnectError);
+      socket.io.off("reconnect", syncNow);
+      window.removeEventListener("focus", onWake);
+      window.removeEventListener("pageshow", onWake);
+      document.removeEventListener("visibilitychange", onWake);
     };
-  }, [session]);
+  }, [session, syncNow]);
 
   async function playerAction<T>(event: string, extra: Record<string, unknown> = {}) {
     if (!session) {
@@ -347,7 +440,11 @@ export default function PlayerGame() {
         <Card className="space-y-4 text-center">
           <Logo size="md" className="justify-center" />
           <p className="animate-pulse-soft font-display text-3xl font-black text-white">Rejoining...</p>
+          <StatusPill label={syncLabel(syncStatus)} tone={syncTone(syncStatus)} />
           {error && <p className="font-semibold text-danger">{error}</p>}
+          <Button variant="secondary" icon={<RefreshCw className="h-4 w-4" />} onClick={syncNow}>
+            Sync Now
+          </Button>
           <Link to={`/join?room=${roomCode}`}>
             <Button variant="secondary">Join Again</Button>
           </Link>
@@ -361,8 +458,18 @@ export default function PlayerGame() {
       <div className="mx-auto max-w-md">
         <header className="mb-5 flex items-center justify-between gap-3">
           <Logo size="sm" showWordmark={false} />
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <StatusPill label={syncLabel(syncStatus)} tone={syncTone(syncStatus)} />
             <StatusPill label={state.status.replace("_", " ")} tone={state.status === "game_over" ? "success" : "blue"} />
+            <button
+              type="button"
+              aria-label="Sync player screen"
+              onClick={syncNow}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-cyan/35 bg-white/8 text-brand-cyan transition hover:border-brand-cyan hover:bg-brand-cyan/12 disabled:opacity-50"
+              disabled={syncStatus === "syncing"}
+            >
+              <RefreshCw className={`h-4 w-4 ${syncStatus === "syncing" ? "animate-spin" : ""}`} />
+            </button>
           </div>
         </header>
 

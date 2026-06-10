@@ -18,6 +18,9 @@ export const socket = io(serverUrl(), {
   autoConnect: false,
   reconnection: true,
   reconnectionAttempts: Infinity,
+  reconnectionDelay: 500,
+  reconnectionDelayMax: 3000,
+  timeout: 10000,
   transports: ["websocket", "polling"],
 });
 
