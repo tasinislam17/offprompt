@@ -227,8 +227,22 @@ describe("room manager prompt privacy", () => {
     const revealed = manager.revealAnswers(host.roomCode, "host_session_token_1234567890");
 
     expect(revealed.currentRound?.publicPrompt).toBe(prompt.mainPrompt);
+    expect(revealed.currentRound?.offPrompt).toBeNull();
+    expect(revealed.currentRound?.answeredPlayerIds.sort()).toEqual([p1.player.id, p2.player.id, p3.player.id].sort());
     expect(JSON.stringify(revealed)).toContain(prompt.mainPrompt);
     expect(JSON.stringify(revealed)).not.toContain(prompt.offPrompt);
+
+    manager.startVoting(host.roomCode, "host_session_token_1234567890");
+    manager.submitVote(host.roomCode, p1.player.id, p1Token, p2.player.id);
+    manager.submitVote(host.roomCode, p2.player.id, p2Token, p3.player.id);
+    const result = manager.submitVote(host.roomCode, p3.player.id, p3Token, p2.player.id);
+
+    expect(result.status).toBe("round_result");
+    const resultHostState = manager.getHostState(host.roomCode);
+    expect(resultHostState.currentRound?.publicPrompt).toBe(prompt.mainPrompt);
+    expect(resultHostState.currentRound?.offPrompt).toBe(prompt.offPrompt);
+    expect(resultHostState.currentRound?.votedPlayerIds.sort()).toEqual([p1.player.id, p2.player.id, p3.player.id].sort());
+    expect(JSON.stringify(resultHostState)).toContain(prompt.offPrompt);
   });
 });
 

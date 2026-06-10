@@ -85,8 +85,11 @@ export type HostRoundView = {
   status: RoomStatus;
   category: string;
   publicPrompt: string | null;
+  offPrompt: string | null;
   answerFormat: AnswerFormat;
   participantCount: number;
+  answeredPlayerIds: string[];
+  votedPlayerIds: string[];
   answerProgress: {
     submitted: number;
     total: number;

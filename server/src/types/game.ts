@@ -30,6 +30,7 @@ export type RoundState = {
   promptPairId: string;
   category: string;
   mainPrompt: string;
+  offPrompt: string;
   answerFormat: AnswerFormat;
   targetPlayerId: string | null;
   participantIds: string[];

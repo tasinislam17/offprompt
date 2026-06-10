@@ -12,7 +12,7 @@ import {
   WifiOff,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
-import type { HostRoomState, RoundResultView } from "@off-prompt/shared";
+import type { HostRoomState, PublicPlayer, RoundResultView } from "@off-prompt/shared";
 import { Button } from "../components/shared/Button";
 import { Card } from "../components/shared/Card";
 import { Logo } from "../components/shared/Logo";
@@ -90,6 +90,61 @@ function PublicPromptCard({ prompt }: { prompt: string | null }) {
     <div className="animate-panel-in rounded-lg border border-brand-cyan/35 bg-brand-blue/14 p-4 shadow-glow">
       <p className="text-xs font-black uppercase tracking-wide text-brand-cyan">Public question</p>
       <p className="mt-2 text-2xl font-black leading-tight text-white lg:text-3xl">{prompt}</p>
+    </div>
+  );
+}
+
+function PromptRevealPanel({ publicPrompt, offPrompt }: { publicPrompt: string | null; offPrompt: string | null }) {
+  if (!publicPrompt && !offPrompt) {
+    return null;
+  }
+
+  return (
+    <div className="grid gap-3 lg:grid-cols-2">
+      {publicPrompt && (
+        <div className="rounded-lg border border-brand-cyan/35 bg-brand-blue/14 p-4">
+          <p className="text-xs font-black uppercase tracking-wide text-brand-cyan">On-prompt question</p>
+          <p className="mt-2 text-xl font-black leading-tight text-white">{publicPrompt}</p>
+        </div>
+      )}
+      {offPrompt && (
+        <div className="rounded-lg border border-brand-purple/45 bg-brand-purple/14 p-4">
+          <p className="text-xs font-black uppercase tracking-wide text-brand-purple">Off-prompt question</p>
+          <p className="mt-2 text-xl font-black leading-tight text-white">{offPrompt}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RoundProgressRoster({
+  players,
+  completedPlayerIds,
+  completeLabel,
+  pendingLabel,
+}: {
+  players: PublicPlayer[];
+  completedPlayerIds: string[];
+  completeLabel: string;
+  pendingLabel: string;
+}) {
+  const completed = new Set(completedPlayerIds);
+  const activePlayers = players.filter((player) => !player.isEliminated);
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {activePlayers.map((player) => {
+        const isComplete = completed.has(player.id);
+        return (
+          <PlayerChip
+            key={player.id}
+            player={player}
+            large
+            activityStatus={isComplete ? "complete" : "pending"}
+            activityLabel={isComplete ? completeLabel : pendingLabel}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -268,12 +323,16 @@ function AnsweringView({
       </Card>
 
       <Card className="space-y-4">
-        <h2 className="font-display text-3xl font-black text-white">Players</h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {state.players.map((player) => (
-            <PlayerChip key={player.id} player={player} large />
-          ))}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-3xl font-black text-white">Answer status</h2>
+          <StatusPill label="Green means locked" tone="success" />
         </div>
+        <RoundProgressRoster
+          players={state.players}
+          completedPlayerIds={round.answeredPlayerIds}
+          completeLabel="Answered"
+          pendingLabel="Waiting"
+        />
       </Card>
     </div>
   );
@@ -359,6 +418,18 @@ function VotingView({ state, onEndVoting }: { state: HostRoomState; onEndVoting:
         <Button size="lg" className="w-full" disabled={!state.canEndVoting} onClick={onEndVoting}>
           End Voting Now
         </Button>
+        <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-display text-2xl font-black text-white">Vote status</h2>
+            <StatusPill label="Green means voted" tone="success" />
+          </div>
+          <RoundProgressRoster
+            players={state.players}
+            completedPlayerIds={round.votedPlayerIds}
+            completeLabel="Voted"
+            pendingLabel="Waiting"
+          />
+        </div>
       </Card>
 
       <Card className="space-y-4">
@@ -407,7 +478,10 @@ function ResultView({
           <h1 className="font-display text-4xl font-black text-white md:text-5xl">{resultTitle(state, result)}</h1>
           <p className="mt-3 text-lg font-bold text-brand-muted">{result.outcomeText}</p>
         </div>
-        <PublicPromptCard prompt={state.currentRound?.publicPrompt ?? null} />
+        <PromptRevealPanel
+          publicPrompt={state.currentRound?.publicPrompt ?? null}
+          offPrompt={state.currentRound?.offPrompt ?? null}
+        />
         {offPromptNames && state.settings.mode === "party" && (
           <div className="rounded-lg border border-brand-purple/45 bg-brand-purple/14 p-4">
             <p className="text-sm font-black uppercase text-brand-cyan">Off Prompt</p>

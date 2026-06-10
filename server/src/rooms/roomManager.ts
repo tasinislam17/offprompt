@@ -733,11 +733,14 @@ export class RoomManager {
   private toHostRoundView(room: RoomState, round: RoundState): HostRoomState["currentRound"] {
     const submitted = Object.keys(round.answers).length;
     const voters = eligibleVoterIds(room, round);
+    const answeredPlayerIds = Object.keys(round.answers);
+    const votedPlayerIds = Object.keys(round.votes);
     const promptIsPublic =
       round.status === "discussion" ||
       round.status === "voting" ||
       round.status === "round_result" ||
       round.status === "game_over";
+    const offPromptIsPublic = round.status === "round_result" || round.status === "game_over";
     const answers =
       promptIsPublic
         ? round.participantIds
@@ -762,8 +765,11 @@ export class RoomManager {
       status: round.status,
       category: round.category,
       publicPrompt: promptIsPublic ? round.mainPrompt : null,
+      offPrompt: offPromptIsPublic ? round.offPrompt : null,
       answerFormat: round.answerFormat,
       participantCount: round.participantIds.length,
+      answeredPlayerIds,
+      votedPlayerIds,
       answerProgress: {
         submitted,
         total: requiredAnswerIds(round).length,

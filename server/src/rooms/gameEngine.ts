@@ -74,6 +74,7 @@ export function createRound({
     promptPairId: promptPair.id,
     category: promptPair.category,
     mainPrompt: renderedPrompt.mainPrompt,
+    offPrompt: renderedPrompt.offPrompt,
     answerFormat: promptPair.answerFormat,
     targetPlayerId: renderedPrompt.targetPlayerId,
     participantIds,

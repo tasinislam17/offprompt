@@ -13,7 +13,6 @@ export function Logo({ size = "md", showWordmark = true, className }: LogoProps)
         src="/off-prompt-logo.svg"
         alt="Off Prompt"
         className={clsx(
-          "drop-shadow-[0_0_18px_rgba(62,249,255,0.34)]",
           size === "sm" && "h-10 w-10",
           size === "md" && "h-14 w-14",
           size === "lg" && "h-20 w-20 md:h-24 md:w-24"
