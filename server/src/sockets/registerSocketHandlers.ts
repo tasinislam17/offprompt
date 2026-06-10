@@ -16,7 +16,8 @@ const settingsSchema = z.object({
   offPromptCount: z.number().int().min(1).max(3),
   criminalCount: z.number().int().min(1).max(2),
   rounds: z.number().int().min(3).max(10),
-  safeLevel: z.enum(["safe", "teen", "adult"]),
+  safeLevel: z.enum(["safe", "spicy", "adult"]),
+  vibe: z.enum(["mixed", "funny", "awkward", "chaotic", "roast", "flirty", "suspicious"]),
   discussionSeconds: z.number().int().min(0).max(240),
   votingSeconds: z.number().int().min(30).max(180),
 }) satisfies z.ZodType<GameSettings>;

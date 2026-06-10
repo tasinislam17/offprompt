@@ -1,6 +1,15 @@
-import type { GameSettings, SafeLevel } from "@off-prompt/shared";
+import type { GameSettings, PromptVibeSetting, SafeLevel } from "@off-prompt/shared";
 
-const safeLevels = new Set<SafeLevel>(["safe", "teen", "adult"]);
+const safeLevels = new Set<SafeLevel>(["safe", "spicy", "adult"]);
+const promptVibes = new Set<PromptVibeSetting>([
+  "mixed",
+  "funny",
+  "awkward",
+  "chaotic",
+  "roast",
+  "flirty",
+  "suspicious",
+]);
 
 export function clampInteger(value: number, min: number, max: number): number {
   if (!Number.isInteger(value)) {
@@ -78,6 +87,9 @@ export function validateSettings(settings: GameSettings): GameSettings {
 
   if (!safeLevels.has(settings.safeLevel)) {
     throw new Error("Choose a valid prompt safety level.");
+  }
+  if (!promptVibes.has(settings.vibe)) {
+    throw new Error("Choose a valid prompt vibe.");
   }
 
   return {

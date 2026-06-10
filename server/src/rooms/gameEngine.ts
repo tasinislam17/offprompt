@@ -51,6 +51,7 @@ export function createRound({
     activePlayerCount: activePlayers.length,
     usedPromptPairIds,
     safeLevel: settings.safeLevel,
+    vibe: settings.vibe,
   });
   const renderedPrompt = renderPromptPair(promptPair, activePlayers);
   const participantIds = activePlayers.map((player) => player.id);

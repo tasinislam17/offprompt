@@ -1,8 +1,11 @@
-import type { AnswerFormat, GameMode, SafeLevel } from "@off-prompt/shared";
+import type { AnswerFormat, GameMode, PromptVibe, SafeLevel } from "@off-prompt/shared";
 
 export type PromptPairType =
   | "open"
   | "numeric"
+  | "player_dynamic"
+  | "spicy"
+  | "who_here"
   | "dynamic"
   | "choice"
   | "hypothetical"
@@ -23,6 +26,7 @@ export type PromptPair = {
   minPlayers: number;
   maxPlayers: number;
   safeLevel: SafeLevel;
+  vibe: PromptVibe;
   tags: string[];
 };
 

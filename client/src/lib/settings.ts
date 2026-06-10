@@ -7,6 +7,7 @@ export const defaultSettings: GameSettings = {
   criminalCount: 1,
   rounds: 5,
   safeLevel: "safe",
+  vibe: "mixed",
   discussionSeconds: 0,
   votingSeconds: 60,
 };

@@ -1,17 +1,21 @@
-import type { GameMode, SafeLevel } from "@off-prompt/shared";
+import type { GameMode, PromptVibe, SafeLevel } from "@off-prompt/shared";
 import type { PromptPair, PromptPairType, TargetRule } from "./promptTypes.js";
 
 const gameModes = new Set<GameMode>(["party", "case"]);
 const promptTypes = new Set<PromptPairType>([
   "open",
   "numeric",
+  "player_dynamic",
+  "spicy",
+  "who_here",
   "dynamic",
   "choice",
   "hypothetical",
   "ranking",
 ]);
 const answerFormats = new Set(["text", "number"]);
-const safeLevels = new Set<SafeLevel>(["safe", "teen", "adult"]);
+const safeLevels = new Set<SafeLevel>(["safe", "spicy", "adult"]);
+const promptVibes = new Set<PromptVibe>(["funny", "awkward", "chaotic", "roast", "flirty", "suspicious"]);
 const targetRules = new Set<TargetRule>(["random_active_player", null]);
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -61,6 +65,10 @@ export function validatePromptPairs(rawPrompts: unknown): PromptPair[] {
 
     const mainPrompt = requiredString(rawPrompt, "mainPrompt", id);
     const offPrompt = requiredString(rawPrompt, "offPrompt", id);
+    if (mainPrompt.trim() === offPrompt.trim()) {
+      throw new Error(`Prompt ${id} cannot use identical mainPrompt and offPrompt values.`);
+    }
+
     const answerFormat = requiredString(rawPrompt, "answerFormat", id);
     if (!answerFormats.has(answerFormat)) {
       throw new Error(`Prompt ${id} has unsupported answerFormat ${answerFormat}.`);
@@ -69,6 +77,11 @@ export function validatePromptPairs(rawPrompts: unknown): PromptPair[] {
     const safeLevel = requiredString(rawPrompt, "safeLevel", id);
     if (!safeLevels.has(safeLevel as SafeLevel)) {
       throw new Error(`Prompt ${id} has unsupported safeLevel ${safeLevel}.`);
+    }
+
+    const vibe = requiredString(rawPrompt, "vibe", id);
+    if (!promptVibes.has(vibe as PromptVibe)) {
+      throw new Error(`Prompt ${id} has unsupported vibe ${vibe}.`);
     }
 
     const modeCompatibility = rawPrompt.modeCompatibility;
@@ -96,13 +109,20 @@ export function validatePromptPairs(rawPrompts: unknown): PromptPair[] {
       throw new Error(`Prompt ${id} has unsupported targetRule ${String(targetRule)}.`);
     }
 
+    const hasPlayerPlaceholder = mainPrompt.includes("{player}") || offPrompt.includes("{player}");
     if (requiresTargetPlayer) {
       if (targetRule !== "random_active_player") {
         throw new Error(`Prompt ${id} needs targetRule random_active_player.`);
       }
-      if (!mainPrompt.includes("{player}") || !offPrompt.includes("{player}")) {
-        throw new Error(`Dynamic prompt ${id} must include {player} in both prompt variants.`);
+      if (!hasPlayerPlaceholder) {
+        throw new Error(`Dynamic prompt ${id} must include {player} in at least one prompt variant.`);
       }
+    }
+    if (hasPlayerPlaceholder && targetRule !== "random_active_player") {
+      throw new Error(`Prompt ${id} uses {player} and needs targetRule random_active_player.`);
+    }
+    if (hasPlayerPlaceholder && !requiresTargetPlayer) {
+      throw new Error(`Prompt ${id} uses {player} and must set requiresTargetPlayer to true.`);
     }
 
     const minPlayers = requiredNumber(rawPrompt, "minPlayers", id);
@@ -124,6 +144,7 @@ export function validatePromptPairs(rawPrompts: unknown): PromptPair[] {
       minPlayers,
       maxPlayers,
       safeLevel: safeLevel as SafeLevel,
+      vibe: vibe as PromptVibe,
       tags: tags as string[],
     });
   }

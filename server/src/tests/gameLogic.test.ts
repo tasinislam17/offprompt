@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { GameSettings } from "@off-prompt/shared";
 import { renderPromptPair } from "../prompts/promptRenderer.js";
+import { selectPromptPair } from "../prompts/promptSelector.js";
 import type { PromptPair } from "../prompts/promptTypes.js";
 import { RoomManager } from "../rooms/roomManager.js";
 import { getCaseWinner } from "../game/caseModeEngine.js";
@@ -16,6 +17,7 @@ const baseSettings: GameSettings = {
   criminalCount: 1,
   rounds: 3,
   safeLevel: "safe",
+  vibe: "mixed",
   discussionSeconds: 90,
   votingSeconds: 60,
 };
@@ -33,6 +35,7 @@ const prompt: PromptPair = {
   minPlayers: 3,
   maxPlayers: 10,
   safeLevel: "safe",
+  vibe: "funny",
   tags: ["test"],
 };
 
@@ -81,6 +84,28 @@ describe("prompt rendering", () => {
     expect(rendered.mainPrompt).toContain(targetName);
     expect(rendered.offPrompt).toContain(targetName);
     expect(rendered.mainPrompt).not.toContain("{player}");
+  });
+});
+
+describe("prompt selection", () => {
+  it("can filter eligible prompts by vibe", () => {
+    const roastPrompt: PromptPair = {
+      ...prompt,
+      id: "test_roast_001",
+      vibe: "roast",
+      mainPrompt: "Name something everyone pretends to understand.",
+      offPrompt: "Name something people explain with total fake confidence.",
+    };
+
+    const selected = selectPromptPair({
+      prompts: [prompt, roastPrompt],
+      mode: "party",
+      activePlayerCount: 3,
+      safeLevel: "safe",
+      vibe: "roast",
+    });
+
+    expect(selected.id).toBe(roastPrompt.id);
   });
 });
 

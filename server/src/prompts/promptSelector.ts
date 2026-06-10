@@ -1,4 +1,4 @@
-import type { GameMode, SafeLevel } from "@off-prompt/shared";
+import type { GameMode, PromptVibeSetting, SafeLevel } from "@off-prompt/shared";
 import type { PromptPair } from "./promptTypes.js";
 
 type SelectPromptArgs = {
@@ -7,11 +7,12 @@ type SelectPromptArgs = {
   activePlayerCount: number;
   usedPromptPairIds?: Iterable<string>;
   safeLevel: SafeLevel;
+  vibe?: PromptVibeSetting;
 };
 
 const safeLevelRank: Record<SafeLevel, number> = {
   safe: 1,
-  teen: 2,
+  spicy: 2,
   adult: 3,
 };
 
@@ -29,6 +30,7 @@ export function selectPromptPair({
   activePlayerCount,
   usedPromptPairIds = [],
   safeLevel,
+  vibe = "mixed",
 }: SelectPromptArgs): PromptPair {
   const usedSet = new Set(usedPromptPairIds);
 
@@ -37,7 +39,8 @@ export function selectPromptPair({
       prompt.modeCompatibility.includes(mode) &&
       activePlayerCount >= prompt.minPlayers &&
       activePlayerCount <= prompt.maxPlayers &&
-      isSafeEnough(prompt, safeLevel)
+      isSafeEnough(prompt, safeLevel) &&
+      (vibe === "mixed" || prompt.vibe === vibe)
     );
   });
 
@@ -46,7 +49,7 @@ export function selectPromptPair({
 
   if (pool.length === 0) {
     throw new Error(
-      `No prompt pairs available for mode=${mode}, players=${activePlayerCount}, safeLevel=${safeLevel}.`
+      `No prompt pairs available for mode=${mode}, players=${activePlayerCount}, safeLevel=${safeLevel}, vibe=${vibe}.`
     );
   }
 

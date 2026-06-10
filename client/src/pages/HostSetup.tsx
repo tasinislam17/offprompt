@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, HelpCircle, Minus, Plus, Shield, Users } from "lucide-react";
-import type { GameMode, GameSettings, SafeLevel } from "@off-prompt/shared";
+import type { GameMode, GameSettings, PromptVibeSetting, SafeLevel } from "@off-prompt/shared";
 import { Button } from "../components/shared/Button";
 import { Card } from "../components/shared/Card";
 import { PageShell } from "../components/shared/PageShell";
@@ -9,6 +9,19 @@ import { StatusPill } from "../components/shared/StatusPill";
 import { createClientToken, saveHostSession } from "../lib/session";
 import { defaultSettings, maxCriminalCount, maxOffPromptCount, recommendedCriminalCount } from "../lib/settings";
 import { emitWithAck } from "../socket/socketClient";
+
+const safeLevelOptions: SafeLevel[] = ["safe", "spicy", "adult"];
+const vibeOptions: PromptVibeSetting[] = ["mixed", "funny", "chaotic", "roast", "flirty", "awkward", "suspicious"];
+
+const vibeLabels: Record<PromptVibeSetting, string> = {
+  mixed: "Mixed",
+  funny: "Funny",
+  chaotic: "Chaotic",
+  roast: "Roast",
+  flirty: "Flirty",
+  awkward: "Awkward",
+  suspicious: "Suspicious",
+};
 
 function NumberStepper({
   label,
@@ -264,7 +277,7 @@ export default function HostSetup() {
           <div className="rounded-lg border border-white/10 bg-white/7 p-4">
             <p className="mb-3 font-bold text-white">Prompt level</p>
             <div className="grid grid-cols-3 gap-2">
-              {(["safe", "teen", "adult"] as SafeLevel[]).map((safeLevel) => (
+              {safeLevelOptions.map((safeLevel) => (
                 <button
                   key={safeLevel}
                   type="button"
@@ -276,6 +289,26 @@ export default function HostSetup() {
                   }`}
                 >
                   {safeLevel}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+            <p className="mb-3 font-bold text-white">Prompt vibe</p>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {vibeOptions.map((vibe) => (
+                <button
+                  key={vibe}
+                  type="button"
+                  onClick={() => update({ vibe })}
+                  className={`min-h-11 rounded-lg border px-3 py-2 text-sm font-black uppercase transition ${
+                    settings.vibe === vibe
+                      ? "border-brand-cyan bg-brand-cyan/14 text-white"
+                      : "border-white/10 bg-white/7 text-brand-muted hover:border-brand-cyan/50"
+                  }`}
+                >
+                  {vibeLabels[vibe]}
                 </button>
               ))}
             </div>

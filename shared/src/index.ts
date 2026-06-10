@@ -1,5 +1,7 @@
 export type GameMode = "party" | "case";
-export type SafeLevel = "safe" | "teen" | "adult";
+export type SafeLevel = "safe" | "spicy" | "adult";
+export type PromptVibe = "funny" | "awkward" | "chaotic" | "roast" | "flirty" | "suspicious";
+export type PromptVibeSetting = PromptVibe | "mixed";
 export type RoomStatus =
   | "lobby"
   | "answering"
@@ -19,6 +21,7 @@ export type GameSettings = {
   criminalCount: number;
   rounds: number;
   safeLevel: SafeLevel;
+  vibe: PromptVibeSetting;
   discussionSeconds: number;
   votingSeconds: number;
 };

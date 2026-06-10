@@ -1,647 +1,2008 @@
 [
   {
-    "id": "friends_001",
-    "category": "Friends",
-    "type": "open",
+    "id": "op_001",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
     "modeCompatibility": [
       "party",
       "case"
     ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name your dumbest friend.",
-    "offPrompt": "Name a friend you would not call for help.",
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What menu item would {player} order to look fancy?",
+    "offPrompt": "What gas-station snack would {player} defend like fine dining?",
     "answerFormat": "text",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "friends",
-      "social",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_002",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who gives the worst advice.",
-    "offPrompt": "Name the friend who thinks they give great advice.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "advice",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_003",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is always late.",
-    "offPrompt": "Name the friend who always has an excuse.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "late",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_004",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend most likely to lose their phone.",
-    "offPrompt": "Name the friend most likely to forget where they parked.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "forgetful",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_005",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who talks too much.",
-    "offPrompt": "Name the friend who cannot keep a secret.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "talkative",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_006",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who would survive a zombie apocalypse.",
-    "offPrompt": "Name the friend who only thinks they would survive a zombie apocalypse.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "hypothetical",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_007",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is the biggest drama magnet.",
-    "offPrompt": "Name the friend who makes small problems feel huge.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "drama",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_008",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is most likely to become famous.",
-    "offPrompt": "Name the friend who acts like they are already famous.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "fame",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_009",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who spends money too easily.",
-    "offPrompt": "Name the friend who would buy something useless but expensive.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "money",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_010",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is the worst texter.",
-    "offPrompt": "Name the friend most likely to leave you on read.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "texting",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_011",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is most likely to cancel plans.",
-    "offPrompt": "Name the friend who says “I’m coming” but never comes.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "plans",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_012",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who would be the worst roommate.",
-    "offPrompt": "Name the friend who would make the biggest mess at home.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "roommate",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_013",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is secretly very smart.",
-    "offPrompt": "Name the friend who pretends to know everything.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "smart",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_014",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who would win in an argument.",
-    "offPrompt": "Name the friend who would argue even when wrong.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "argument",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_015",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is most likely to cry during a movie.",
-    "offPrompt": "Name the friend who gets emotional for no reason.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "emotional",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_016",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who eats the most.",
-    "offPrompt": "Name the friend who orders too much food.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
+      "player",
       "food",
-      "open"
+      "money"
     ]
   },
   {
-    "id": "friends_017",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is most likely to start a business.",
-    "offPrompt": "Name the friend who always has unrealistic business ideas.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "business",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_018",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is most likely to become rich.",
-    "offPrompt": "Name the friend who behaves like they are already rich.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "money",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_019",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend you would trust with a secret.",
-    "offPrompt": "Name the friend you would trust with your phone password.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "trust",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_020",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend you would not trust with your wallet.",
-    "offPrompt": "Name the friend who would forget to pay you back.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "wallet",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_021",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend most likely to get lost while traveling.",
-    "offPrompt": "Name the friend most likely to book the wrong ticket.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "travel",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_022",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who would make the best leader.",
-    "offPrompt": "Name the friend who would boss everyone around.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "leader",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_023",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who has the worst music taste.",
-    "offPrompt": "Name the friend who plays songs nobody asked for.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "music",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_024",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who would be the best actor.",
-    "offPrompt": "Name the friend who lies most convincingly.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "acting",
-      "open"
-    ]
-  },
-  {
-    "id": "friends_025",
-    "category": "Friends",
-    "type": "open",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Name the friend who is most likely to become a meme.",
-    "offPrompt": "Name the friend who does the most meme-worthy things.",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "friends",
-      "meme",
-      "open"
-    ]
-  },
-  {
-    "id": "player_numeric_026",
+    "id": "op_002",
     "category": "Player Dynamics",
-    "type": "numeric",
+    "type": "player_dynamic",
     "modeCompatibility": [
       "party",
       "case"
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many times did {player} get angry last month?",
-    "offPrompt": "How many times did {player} complain last month?",
-    "answerFormat": "number",
+    "mainPrompt": "What would {player} forget when packing for a weekend trip?",
+    "offPrompt": "What ridiculous souvenir would {player} bring back from that trip?",
+    "answerFormat": "text",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric"
+      "player",
+      "travel"
     ]
   },
   {
-    "id": "player_numeric_027",
+    "id": "op_003",
     "category": "Player Dynamics",
-    "type": "numeric",
+    "type": "player_dynamic",
     "modeCompatibility": [
       "party",
       "case"
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many times did {player} get drunk last month?",
-    "offPrompt": "How many times did {player} act drunk without being drunk last month?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "adult",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "alcohol"
-    ]
-  },
-  {
-    "id": "player_numeric_028",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many times did {player} cancel plans last month?",
-    "offPrompt": "How many times did {player} almost cancel plans last month?",
-    "answerFormat": "number",
+    "mainPrompt": "What app does {player} probably waste the most time on?",
+    "offPrompt": "What app would expose {player} the most if opened in public?",
+    "answerFormat": "text",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "awkward",
     "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric"
-    ]
-  },
-  {
-    "id": "player_numeric_029",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many unread messages does {player} probably have?",
-    "offPrompt": "How many ignored messages does {player} probably have?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
+      "player",
       "phone"
     ]
   },
   {
-    "id": "player_numeric_030",
+    "id": "op_004",
     "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} buy first after winning a huge prize?",
+    "offPrompt": "What fake business idea would {player} suddenly fund?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "player",
+      "money"
+    ]
+  },
+  {
+    "id": "op_005",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} say after arriving late?",
+    "offPrompt": "What alarm label would {player} ignore completely?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "lateness"
+    ]
+  },
+  {
+    "id": "op_006",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What food could {player} eat three days in a row?",
+    "offPrompt": "What food would {player} judge someone else for liking?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "food"
+    ]
+  },
+  {
+    "id": "op_007",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if their crush texted \"hey\"?",
+    "offPrompt": "What tiny emoji would {player} overanalyze for hours?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "flirty",
+    "tags": [
+      "player",
+      "crush"
+    ]
+  },
+  {
+    "id": "op_008",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player}'s influencer niche be?",
+    "offPrompt": "What sponsorship would {player} accept way too quickly?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "social_media"
+    ]
+  },
+  {
+    "id": "op_009",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do at a boring party?",
+    "offPrompt": "What fake emergency would {player} invent to escape a bad hangout?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "player",
+      "party"
+    ]
+  },
+  {
+    "id": "op_010",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} be famous for in this group?",
+    "offPrompt": "What rumor about {player} would be easiest to believe?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "group"
+    ]
+  },
+  {
+    "id": "op_011",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} bring to a hangout?",
+    "offPrompt": "What would {player} borrow and never return?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "hangout"
+    ]
+  },
+  {
+    "id": "op_012",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if the Wi-Fi stopped working?",
+    "offPrompt": "What old-school hobby would {player} pretend to enjoy for ten minutes?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "phone"
+    ]
+  },
+  {
+    "id": "op_013",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What job would {player} be surprisingly good at?",
+    "offPrompt": "What job would get {player} fired before lunch?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "work"
+    ]
+  },
+  {
+    "id": "op_014",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} name their restaurant?",
+    "offPrompt": "What item on {player}'s menu would become weirdly famous?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "food"
+    ]
+  },
+  {
+    "id": "op_015",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they became group leader?",
+    "offPrompt": "What harmless thing would {player} ban immediately?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "player",
+      "group"
+    ]
+  },
+  {
+    "id": "op_016",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} search on YouTube at 2 AM?",
+    "offPrompt": "What tutorial would {player} watch and still not understand?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "player",
+      "internet"
+    ]
+  },
+  {
+    "id": "op_017",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they missed a flight?",
+    "offPrompt": "What airport announcement would make {player} sprint for no reason?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "travel"
+    ]
+  },
+  {
+    "id": "op_018",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} spend too much money on?",
+    "offPrompt": "What cheap thing would {player} brag about getting on sale?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "money"
+    ]
+  },
+  {
+    "id": "op_019",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do during a power cut?",
+    "offPrompt": "What object would {player} grab first in a suspicious noise emergency?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "daily_life"
+    ]
+  },
+  {
+    "id": "op_020",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} say after making a bad decision?",
+    "offPrompt": "What risky plan could {player} make sound reasonable?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "player",
+      "decision"
+    ]
+  },
+  {
+    "id": "op_021",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} cook to impress everyone?",
+    "offPrompt": "What kitchen mistake would {player} call fusion?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "food"
+    ]
+  },
+  {
+    "id": "op_022",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they controlled the aux cable?",
+    "offPrompt": "What song would make {player} grab the aux with full confidence?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "music"
+    ]
+  },
+  {
+    "id": "op_023",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} buy from a convenience store at midnight?",
+    "offPrompt": "What item would {player} hide at the bottom of a shopping basket?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "player",
+      "shopping"
+    ]
+  },
+  {
+    "id": "op_024",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What superhero power would {player} choose?",
+    "offPrompt": "What everyday chore would {player} use a superpower to avoid?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "player",
+      "hypothetical"
+    ]
+  },
+  {
+    "id": "op_025",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if their phone battery hit 1%?",
+    "offPrompt": "What photo would {player} delete first if their storage was full?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "phone"
+    ]
+  },
+  {
+    "id": "op_026",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} wear to look rich?",
+    "offPrompt": "What accessory would {player} claim has designer energy?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "style"
+    ]
+  },
+  {
+    "id": "op_027",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they became famous overnight?",
+    "offPrompt": "What silly headline would {player} accidentally create?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "player",
+      "fame"
+    ]
+  },
+  {
+    "id": "op_028",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} bring to a picnic?",
+    "offPrompt": "What picnic game would {player} take way too seriously?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "food"
+    ]
+  },
+  {
+    "id": "op_029",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they were asked to give a speech?",
+    "offPrompt": "What topic could {player} accidentally rant about for five minutes?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "player",
+      "public_speaking"
+    ]
+  },
+  {
+    "id": "op_030",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do in a group project?",
+    "offPrompt": "What presentation slide would {player} obsess over for no reason?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "work"
+    ]
+  },
+  {
+    "id": "op_031",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do first in a shopping mall?",
+    "offPrompt": "What store would {player} enter \"just to look\" and leave broke?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "shopping"
+    ]
+  },
+  {
+    "id": "op_032",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they saw a celebrity?",
+    "offPrompt": "What celebrity would {player} confidently pretend to recognize?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "player",
+      "celebrity"
+    ]
+  },
+  {
+    "id": "op_033",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} name their pet?",
+    "offPrompt": "What pet would {player} treat like a roommate with opinions?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "pets"
+    ]
+  },
+  {
+    "id": "op_034",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they had to babysit for one day?",
+    "offPrompt": "What cartoon theme song would {player} secretly enjoy?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "hypothetical"
+    ]
+  },
+  {
+    "id": "op_035",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} choose for a movie night?",
+    "offPrompt": "What movie opinion would {player} defend against the whole room?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "movies"
+    ]
+  },
+  {
+    "id": "op_036",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they had to plan a date?",
+    "offPrompt": "What romantic gesture would {player} think is smoother than it is?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "flirty",
+    "tags": [
+      "player",
+      "dating"
+    ]
+  },
+  {
+    "id": "op_037",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if the group bill came?",
+    "offPrompt": "What tiny expense would {player} remember forever?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "money"
+    ]
+  },
+  {
+    "id": "op_038",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they were the DJ for the night?",
+    "offPrompt": "What song would {player} save for a dramatic entrance?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "player",
+      "music"
+    ]
+  },
+  {
+    "id": "op_039",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} say if asked for a fun fact?",
+    "offPrompt": "What random topic does {player} know suspiciously too much about?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "player",
+      "social"
+    ]
+  },
+  {
+    "id": "op_040",
+    "category": "Player Dynamics",
+    "type": "player_dynamic",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they won a free vacation?",
+    "offPrompt": "What travel complaint would {player} turn into a personality?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "player",
+      "travel"
+    ]
+  },
+  {
+    "id": "op_041",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be the worst person to plan a trip with?",
+    "offPrompt": "Who here would turn a two-day trip into a color-coded spreadsheet?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "who_here",
+      "travel"
+    ]
+  },
+  {
+    "id": "op_042",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would take the longest to get ready?",
+    "offPrompt": "Who here would be ready early and still somehow delay everyone?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "who_here",
+      "lateness"
+    ]
+  },
+  {
+    "id": "op_043",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be the worst person to share a room with?",
+    "offPrompt": "Who here would unpack like they own the entire room?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "who_here",
+      "roommate"
+    ]
+  },
+  {
+    "id": "op_044",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would survive best without their phone?",
+    "offPrompt": "Who here would ask for the Wi-Fi password before saying hello?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "who_here",
+      "phone"
+    ]
+  },
+  {
+    "id": "op_045",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would become famous first?",
+    "offPrompt": "Who here would accidentally become a meme?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "who_here",
+      "fame"
+    ]
+  },
+  {
+    "id": "op_046",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would win a reality show?",
+    "offPrompt": "Who here would get caught whispering into the wrong microphone?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "who_here",
+      "reality_show"
+    ]
+  },
+  {
+    "id": "op_047",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be the strictest teacher?",
+    "offPrompt": "Who here would give homework and then forget to grade it?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "who_here",
+      "teacher"
+    ]
+  },
+  {
+    "id": "op_048",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would run the best business?",
+    "offPrompt": "Who here would start a business with only a logo and confidence?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "who_here",
+      "business"
+    ]
+  },
+  {
+    "id": "op_049",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be the easiest to convince?",
+    "offPrompt": "Who here would convince everyone else to do something questionable?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "who_here",
+      "group"
+    ]
+  },
+  {
+    "id": "op_050",
+    "category": "Player Who Here",
+    "type": "who_here",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would give the best advice?",
+    "offPrompt": "Who here would need three disclaimers before giving advice?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "roast",
+    "tags": [
+      "who_here",
+      "advice"
+    ]
+  },
+  {
+    "id": "op_051",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst thing to forget before leaving home?",
+    "offPrompt": "What item makes you feel instantly irresponsible when you cannot find it?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "daily_life"
+    ]
+  },
+  {
+    "id": "op_052",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What sound should be illegal in public?",
+    "offPrompt": "What sound makes a room tense immediately?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "public"
+    ]
+  },
+  {
+    "id": "op_053",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What food is the riskiest choice around new people?",
+    "offPrompt": "What food looks classy until someone starts eating it?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "food"
+    ]
+  },
+  {
+    "id": "op_054",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What purchase feels smart in the moment but stupid later?",
+    "offPrompt": "What item do people buy mostly to look like they have their life together?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "money"
+    ]
+  },
+  {
+    "id": "op_055",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What place makes waiting feel the longest?",
+    "offPrompt": "What line moves slowly enough to test a friendship?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "places"
+    ]
+  },
+  {
+    "id": "op_056",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What group chat message creates instant silence?",
+    "offPrompt": "What message makes everyone pretend they are busy?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "texting"
+    ]
+  },
+  {
+    "id": "op_057",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What phrase sounds suspicious even when it is true?",
+    "offPrompt": "What excuse sounds fake before the person finishes saying it?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "suspicious",
+    "tags": [
+      "general",
+      "speech"
+    ]
+  },
+  {
+    "id": "op_058",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the weakest excuse for being late?",
+    "offPrompt": "What detail makes a lateness story too dramatic to trust?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "lateness"
+    ]
+  },
+  {
+    "id": "op_059",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What restaurant habit should be a red flag?",
+    "offPrompt": "What table behavior makes everyone suddenly polite but annoyed?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "op_060",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What household item running out causes the most chaos?",
+    "offPrompt": "What item do people only respect after it is gone?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "home"
+    ]
+  },
+  {
+    "id": "op_061",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst thing to borrow from someone?",
+    "offPrompt": "What borrowed item comes back with bad energy?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "borrowing"
+    ]
+  },
+  {
+    "id": "op_062",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst thing to break at someone else's house?",
+    "offPrompt": "What object would make you consider quietly moving away?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "home"
+    ]
+  },
+  {
+    "id": "op_063",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the most awkward place to meet someone you know?",
+    "offPrompt": "Where does small talk feel like a trap?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "places"
+    ]
+  },
+  {
+    "id": "op_064",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst thing to accidentally send?",
+    "offPrompt": "What notification preview could ruin a whole evening?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "texting"
+    ]
+  },
+  {
+    "id": "op_065",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What topic ruins small talk fastest?",
+    "offPrompt": "What question makes a casual chat feel like a job interview?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "conversation"
+    ]
+  },
+  {
+    "id": "op_066",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the most dangerous thing to say during an argument?",
+    "offPrompt": "What sentence sounds calm but starts round two?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "chaotic",
+    "tags": [
+      "general",
+      "argument"
+    ]
+  },
+  {
+    "id": "op_067",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst thing to forget at a wedding?",
+    "offPrompt": "What wedding mistake would become family mythology?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "wedding"
+    ]
+  },
+  {
+    "id": "op_068",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst thing to bring to a potluck?",
+    "offPrompt": "What homemade dish would make everyone say \"interesting\"?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "food"
+    ]
+  },
+  {
+    "id": "op_069",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What type of person is worst to sit beside on a bus?",
+    "offPrompt": "What stranger behavior makes headphones feel necessary?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "general",
+      "travel"
+    ]
+  },
+  {
+    "id": "op_070",
+    "category": "General Social",
+    "type": "open",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "What is the worst response to \"look at this photo\"?",
+    "offPrompt": "What photo comment sounds helpful but lands like an insult?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "awkward",
+    "tags": [
+      "general",
+      "photos"
+    ]
+  },
+  {
+    "id": "op_071",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would flirt and then say they were just being friendly?",
+    "offPrompt": "Who here would miss an obvious flirt until the next morning?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "flirting",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_072",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would send the riskiest midnight text?",
+    "offPrompt": "Who here would draft a message, ask for advice, and ignore all of it?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "adult",
+    "vibe": "flirty",
+    "tags": [
+      "adult",
+      "texting",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_073",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would make the worst dating profile?",
+    "offPrompt": "Who here would use a dating app like a job interview?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "dating",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_074",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would get too honest after one drink?",
+    "offPrompt": "Who here would become everyone's therapist at 1 AM?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "adult",
+    "vibe": "chaotic",
+    "tags": [
+      "adult",
+      "party",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_075",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be the most dangerous crush to have?",
+    "offPrompt": "Who here would make a harmless crush feel like a three-season drama?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "crush",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_076",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would make the worst decision during a night out?",
+    "offPrompt": "Who here would wake up and check their phone with fear?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "adult",
+    "vibe": "chaotic",
+    "tags": [
+      "adult",
+      "night_out",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_077",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be dangerous to sit beside at a party?",
+    "offPrompt": "Who here would start a whisper chain within five minutes?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "chaotic",
+    "tags": [
+      "spicy",
+      "party",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_078",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would be the worst person to have a secret crush on?",
+    "offPrompt": "Who here would accidentally expose someone else's crush?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "crush",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_079",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here would cause the most damage with one risky message?",
+    "offPrompt": "Who here would read one screenshot and immediately need the whole story?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "adult",
+    "vibe": "chaotic",
+    "tags": [
+      "adult",
+      "texting",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_080",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": false,
+    "targetRule": null,
+    "mainPrompt": "Who here gives the strongest “trouble after midnight” energy?",
+    "offPrompt": "Who here should have their phone taken away after 11 PM?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "adult",
+    "vibe": "flirty",
+    "tags": [
+      "adult",
+      "midnight",
+      "who_here"
+    ]
+  },
+  {
+    "id": "op_081",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} text someone at 1 AM?",
+    "offPrompt": "What would {player} post and delete before anyone could react?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "player",
+      "texting"
+    ]
+  },
+  {
+    "id": "op_082",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if their crush liked an old photo?",
+    "offPrompt": "What harmless sign would make {player} believe romance is happening?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "player",
+      "crush"
+    ]
+  },
+  {
+    "id": "op_083",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} say if someone called them attractive?",
+    "offPrompt": "What compliment would {player} pretend not to replay later?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "player",
+      "compliment"
+    ]
+  },
+  {
+    "id": "op_084",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} wear to get attention at a party?",
+    "offPrompt": "What casual outfit would {player} clearly plan all afternoon?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "player",
+      "party"
+    ]
+  },
+  {
+    "id": "op_085",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if an ex suddenly messaged?",
+    "offPrompt": "What old memory would {player} bring up at the worst possible time?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "adult",
+    "vibe": "awkward",
+    "tags": [
+      "adult",
+      "player",
+      "ex"
+    ]
+  },
+  {
+    "id": "op_086",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} order on a date to look classy?",
+    "offPrompt": "What date topic would make {player} reveal too much too soon?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "awkward",
+    "tags": [
+      "spicy",
+      "player",
+      "dating"
+    ]
+  },
+  {
+    "id": "op_087",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if someone cute sat nearby?",
+    "offPrompt": "What normal task would {player} suddenly forget how to do?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "player",
+      "crush"
+    ]
+  },
+  {
+    "id": "op_088",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} say to avoid admitting they were jealous?",
+    "offPrompt": "What harmless comment would {player} treat like a personal attack?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "awkward",
+    "tags": [
+      "spicy",
+      "player",
+      "jealousy"
+    ]
+  },
+  {
+    "id": "op_089",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} do if they got too much attention at a party?",
+    "offPrompt": "What would {player} do if they felt ignored all night?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "chaotic",
+    "tags": [
+      "spicy",
+      "player",
+      "party"
+    ]
+  },
+  {
+    "id": "op_090",
+    "category": "Adult Party",
+    "type": "spicy",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "What would {player} put in their dating bio?",
+    "offPrompt": "What green flag would {player} exaggerate about themselves?",
+    "answerFormat": "text",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "spicy",
+    "vibe": "flirty",
+    "tags": [
+      "spicy",
+      "player",
+      "dating"
+    ]
+  },
+  {
+    "id": "op_091",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -650,90 +2011,21 @@
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
     "mainPrompt": "How many alarms does {player} need to wake up?",
-    "offPrompt": "How many times does {player} hit snooze in the morning?",
+    "offPrompt": "How many unread notifications could {player} ignore all day?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
+      "player",
       "morning"
     ]
   },
   {
-    "id": "player_numeric_031",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many hours can {player} go without checking their phone?",
-    "offPrompt": "How many minutes can {player} go without checking notifications?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "phone"
-    ]
-  },
-  {
-    "id": "player_numeric_032",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many selfies does {player} take before posting one?",
-    "offPrompt": "How many photos does {player} reject before choosing one?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "photos"
-    ]
-  },
-  {
-    "id": "player_numeric_033",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many times would {player} check the bill at a restaurant?",
-    "offPrompt": "How many times would {player} complain about the bill?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "restaurant"
-    ]
-  },
-  {
-    "id": "player_numeric_034",
-    "category": "Player Dynamics",
+    "id": "op_092",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -742,21 +2034,21 @@
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
     "mainPrompt": "How many minutes late is {player} usually?",
-    "offPrompt": "How many minutes before leaving does {player} start getting ready?",
+    "offPrompt": "How many minutes early would {player} arrive if food was involved?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
-      "late"
+      "player",
+      "lateness"
     ]
   },
   {
-    "id": "player_numeric_035",
-    "category": "Player Dynamics",
+    "id": "op_093",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -764,22 +2056,22 @@
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many people has {player} probably blocked?",
-    "offPrompt": "How many people has {player} probably muted?",
+    "mainPrompt": "How many photos would {player} take before posting one?",
+    "offPrompt": "How many tabs would {player} open before buying one thing online?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
-      "social"
+      "player",
+      "photos"
     ]
   },
   {
-    "id": "player_numeric_036",
-    "category": "Player Dynamics",
+    "id": "op_094",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -787,22 +2079,22 @@
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many tabs does {player} keep open in their browser?",
-    "offPrompt": "How many unfinished tasks does {player} keep open in their head?",
+    "mainPrompt": "How many browser tabs does {player} probably have open?",
+    "offPrompt": "How many passwords would {player} try before giving up?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
-      "work"
+      "player",
+      "internet"
     ]
   },
   {
-    "id": "player_numeric_037",
-    "category": "Player Dynamics",
+    "id": "op_095",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -810,22 +2102,22 @@
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many days can {player} survive without social media?",
-    "offPrompt": "How many hours can {player} survive without scrolling?",
+    "mainPrompt": "How many unread messages does {player} probably have?",
+    "offPrompt": "How many voice notes would {player} send instead of typing?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
-      "social"
+      "player",
+      "phone"
     ]
   },
   {
-    "id": "player_numeric_038",
-    "category": "Player Dynamics",
+    "id": "op_096",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -833,22 +2125,45 @@
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many cups of tea or coffee does {player} need in a day?",
-    "offPrompt": "How many cups of tea or coffee does {player} claim they need in a day?",
+    "mainPrompt": "How many items would {player} overpack for a one-night trip?",
+    "offPrompt": "How many snacks would {player} finish before arriving?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
+      "player",
+      "travel"
+    ]
+  },
+  {
+    "id": "op_097",
+    "category": "Numeric",
+    "type": "numeric",
+    "modeCompatibility": [
+      "party",
+      "case"
+    ],
+    "requiresTargetPlayer": true,
+    "targetRule": "random_active_player",
+    "mainPrompt": "How many cups of tea or coffee could {player} drink in a day?",
+    "offPrompt": "How many hours of sleep would {player} call \"basically enough\"?",
+    "answerFormat": "number",
+    "minPlayers": 3,
+    "maxPlayers": 10,
+    "safeLevel": "safe",
+    "vibe": "funny",
+    "tags": [
+      "numeric",
+      "player",
       "coffee"
     ]
   },
   {
-    "id": "player_numeric_039",
-    "category": "Player Dynamics",
+    "id": "op_098",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -856,22 +2171,22 @@
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many times has {player} said “I’ll start tomorrow”?",
-    "offPrompt": "How many times has {player} delayed something important?",
+    "mainPrompt": "How many minutes would {player} spend choosing what to eat?",
+    "offPrompt": "How many times would {player} say \"I'm not hungry\" before stealing fries?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
-      "delay"
+      "player",
+      "food"
     ]
   },
   {
-    "id": "player_numeric_040",
-    "category": "Player Dynamics",
+    "id": "op_099",
+    "category": "Numeric",
     "type": "numeric",
     "modeCompatibility": [
       "party",
@@ -879,1307 +2194,40 @@
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "How many minutes would {player} last in a horror movie?",
-    "offPrompt": "How many minutes would {player} last alone in a haunted house?",
+    "mainPrompt": "How much money would {player} spend on something unnecessary?",
+    "offPrompt": "How much money would {player} hide from themselves as future savings?",
     "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
       "numeric",
-      "horror"
-    ]
-  },
-  {
-    "id": "player_numeric_041",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many secrets could {player} keep safely?",
-    "offPrompt": "How many secrets would people mistakenly tell {player}?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "secrets"
-    ]
-  },
-  {
-    "id": "player_numeric_042",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many excuses does {player} have ready at all times?",
-    "offPrompt": "How many believable excuses can {player} make instantly?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "excuses"
-    ]
-  },
-  {
-    "id": "player_numeric_043",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many screenshots does {player} have in their phone?",
-    "offPrompt": "How many unnecessary photos does {player} have in their gallery?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "phone"
-    ]
-  },
-  {
-    "id": "player_numeric_044",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many times would {player} say “last one” before actually stopping?",
-    "offPrompt": "How many extra episodes would {player} watch after saying “last one”?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "tv"
-    ]
-  },
-  {
-    "id": "player_numeric_045",
-    "category": "Player Dynamics",
-    "type": "numeric",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "How many people would {player} invite to a small party?",
-    "offPrompt": "How many people would {player} accidentally turn a small party into?",
-    "answerFormat": "number",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "numeric",
-      "party"
-    ]
-  },
-  {
-    "id": "player_dynamic_046",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What is {player} most likely to waste money on?",
-    "offPrompt": "What is {player} most likely to regret buying?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
+      "player",
       "money"
     ]
   },
   {
-    "id": "player_dynamic_047",
-    "category": "Player Dynamics",
-    "type": "dynamic",
+    "id": "op_100",
+    "category": "Numeric",
+    "type": "numeric",
     "modeCompatibility": [
       "party",
       "case"
     ],
     "requiresTargetPlayer": true,
     "targetRule": "random_active_player",
-    "mainPrompt": "What food would {player} never refuse?",
-    "offPrompt": "What food would {player} pretend to be too full for but still eat?",
-    "answerFormat": "text",
+    "mainPrompt": "How many selfies would {player} take on a good hair day?",
+    "offPrompt": "How many outfit changes would {player} try before saying \"this is fine\"?",
+    "answerFormat": "number",
     "minPlayers": 3,
     "maxPlayers": 10,
     "safeLevel": "safe",
+    "vibe": "funny",
     "tags": [
-      "dynamic",
-      "player-specific",
-      "food"
-    ]
-  },
-  {
-    "id": "player_dynamic_048",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What job would {player} be surprisingly good at?",
-    "offPrompt": "What job would {player} think they are good at but probably fail?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "job"
-    ]
-  },
-  {
-    "id": "player_dynamic_049",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What app does {player} use the most?",
-    "offPrompt": "What app wastes most of {player}’s time?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "app"
-    ]
-  },
-  {
-    "id": "player_dynamic_050",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What is {player} most likely to lie about?",
-    "offPrompt": "What is {player} most likely to exaggerate?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "lie"
-    ]
-  },
-  {
-    "id": "player_dynamic_051",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} bring to a picnic?",
-    "offPrompt": "What would {player} forget to bring to a picnic?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "picnic"
-    ]
-  },
-  {
-    "id": "player_dynamic_052",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} do first after becoming rich?",
-    "offPrompt": "What unnecessary thing would {player} buy after becoming rich?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "money"
-    ]
-  },
-  {
-    "id": "player_dynamic_053",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What is {player} most likely to search on Google?",
-    "offPrompt": "What is {player} most embarrassed to search on Google?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "search"
-    ]
-  },
-  {
-    "id": "player_dynamic_054",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} name their autobiography?",
-    "offPrompt": "What would {player} name their apology video?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "creative"
-    ]
-  },
-  {
-    "id": "player_dynamic_055",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} be famous for?",
-    "offPrompt": "What would {player} go viral for?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "fame"
-    ]
-  },
-  {
-    "id": "player_dynamic_056",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What is {player} most likely to forget?",
-    "offPrompt": "What is {player} most likely to pretend they did not forget?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "forgetful"
-    ]
-  },
-  {
-    "id": "player_dynamic_057",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} do during a blackout?",
-    "offPrompt": "What would {player} panic about during a blackout?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "blackout"
-    ]
-  },
-  {
-    "id": "player_dynamic_058",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} order at midnight?",
-    "offPrompt": "What would {player} regret ordering at midnight?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "food"
-    ]
-  },
-  {
-    "id": "player_dynamic_059",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} do if they missed a flight?",
-    "offPrompt": "What would {player} blame if they missed a flight?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "travel"
-    ]
-  },
-  {
-    "id": "player_dynamic_060",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} save first in a fire?",
-    "offPrompt": "What would {player} wrongly think is worth saving first in a fire?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "emergency"
-    ]
-  },
-  {
-    "id": "player_dynamic_061",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What is {player}’s most likely toxic trait?",
-    "offPrompt": "What toxic trait would {player} deny having?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "adult",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "social"
-    ]
-  },
-  {
-    "id": "player_dynamic_062",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} do if their crush texted them?",
-    "offPrompt": "What would {player} overthink if their crush texted them?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "teen",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "crush"
-    ]
-  },
-  {
-    "id": "player_dynamic_063",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} do on their first day as president?",
-    "offPrompt": "What rule would {player} create if they had too much power?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "power"
-    ]
-  },
-  {
-    "id": "player_dynamic_064",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} be arrested for in a cartoon world?",
-    "offPrompt": "What would {player} be falsely accused of in a cartoon world?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "cartoon"
-    ]
-  },
-  {
-    "id": "player_dynamic_065",
-    "category": "Player Dynamics",
-    "type": "dynamic",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": true,
-    "targetRule": "random_active_player",
-    "mainPrompt": "What would {player} pack for a one-day trip?",
-    "offPrompt": "What would {player} overpack for a one-day trip?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "dynamic",
-      "player-specific",
-      "travel"
-    ]
-  },
-  {
-    "id": "choice_066",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst thing to forget before leaving home?",
-    "offPrompt": "What is the worst thing to lose after leaving home?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "daily"
-    ]
-  },
-  {
-    "id": "choice_067",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the most annoying sound?",
-    "offPrompt": "What is the most annoying notification sound?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "sound"
-    ]
-  },
-  {
-    "id": "choice_068",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst place to get stuck?",
-    "offPrompt": "What is the worst place to fall asleep?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "place"
-    ]
-  },
-  {
-    "id": "choice_069",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the most overrated food?",
-    "offPrompt": "What is the most overhyped restaurant food?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "food"
-    ]
-  },
-  {
-    "id": "choice_070",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the most useless thing people buy?",
-    "offPrompt": "What is the most regrettable thing people buy online?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "shopping"
-    ]
-  },
-  {
-    "id": "choice_071",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst message to receive at midnight?",
-    "offPrompt": "What is the worst call to receive at midnight?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "phone"
-    ]
-  },
-  {
-    "id": "choice_072",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the most suspicious thing someone can say?",
-    "offPrompt": "What is the most suspicious excuse someone can give?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "suspicious"
-    ]
-  },
-  {
-    "id": "choice_073",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst thing to say on a first date?",
-    "offPrompt": "What is the worst thing to ask on a first date?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "date"
-    ]
-  },
-  {
-    "id": "choice_074",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst excuse for being late?",
-    "offPrompt": "What is the worst excuse for not replying?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "excuse"
-    ]
-  },
-  {
-    "id": "choice_075",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the most annoying habit at a restaurant?",
-    "offPrompt": "What is the most annoying habit while ordering food?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "restaurant"
-    ]
-  },
-  {
-    "id": "choice_076",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst thing to run out of?",
-    "offPrompt": "What is the worst thing to forget to buy?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "shopping"
-    ]
-  },
-  {
-    "id": "choice_077",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst item to borrow from someone?",
-    "offPrompt": "What is the worst item to return late?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "borrowing"
-    ]
-  },
-  {
-    "id": "choice_078",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst thing to break at someone’s house?",
-    "offPrompt": "What is the worst thing to spill at someone’s house?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "home"
-    ]
-  },
-  {
-    "id": "choice_079",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the most awkward place to meet an ex?",
-    "offPrompt": "What is the most awkward place to see someone you are avoiding?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "teen",
-    "tags": [
-      "choice",
-      "awkward"
-    ]
-  },
-  {
-    "id": "choice_080",
-    "category": "Choices",
-    "type": "choice",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "What is the worst thing to accidentally send?",
-    "offPrompt": "What is the worst thing to accidentally post?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "choice",
-      "phone"
-    ]
-  },
-  {
-    "id": "hypothetical_081",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here opened a restaurant, who would fail first?",
-    "offPrompt": "If everyone here opened a restaurant, who would get the worst reviews?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_082",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here joined a reality show, who would be eliminated first?",
-    "offPrompt": "If everyone here joined a reality show, who would create the most drama?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_083",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here was stuck on an island, who would become leader?",
-    "offPrompt": "If everyone here was stuck on an island, who would annoy the leader most?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_084",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here became teachers, who would be the strictest?",
-    "offPrompt": "If everyone here became teachers, who would be the most confusing teacher?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_085",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here became superheroes, who would have the weirdest power?",
-    "offPrompt": "If everyone here became superheroes, who would misuse their power first?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_086",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here started a band, who would be the lead singer?",
-    "offPrompt": "If everyone here started a band, who would ruin rehearsal?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_087",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here went on a trip, who would plan everything?",
-    "offPrompt": "If everyone here went on a trip, who would complain the most?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_088",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here became influencers, who would get followers fastest?",
-    "offPrompt": "If everyone here became influencers, who would post the most cringe content?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_089",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here worked in the same office, who would get promoted first?",
-    "offPrompt": "If everyone here worked in the same office, who would pretend to be busy most?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "hypothetical_090",
-    "category": "Hypotheticals",
-    "type": "hypothetical",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "If everyone here had to cook dinner, who would make the best dish?",
-    "offPrompt": "If everyone here had to cook dinner, who would make the biggest mess?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "hypothetical",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_091",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to survive without internet for a week?",
-    "offPrompt": "Who here would complain most without internet for a week?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_092",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to win a debate?",
-    "offPrompt": "Who here is most likely to start an unnecessary debate?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_093",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to sleep through an emergency?",
-    "offPrompt": "Who here is most likely to panic during a fake emergency?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_094",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to become a millionaire?",
-    "offPrompt": "Who here is most likely to spend like a millionaire before becoming one?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_095",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to keep a plant alive?",
-    "offPrompt": "Who here is most likely to forget they own a plant?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_096",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to be calm under pressure?",
-    "offPrompt": "Who here is most likely to pretend to be calm under pressure?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_097",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to give a motivational speech?",
-    "offPrompt": "Who here is most likely to give advice nobody asked for?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_098",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to remember everyone’s birthday?",
-    "offPrompt": "Who here is most likely to forget their own plans?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_099",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to become the group therapist?",
-    "offPrompt": "Who here is most likely to need the group therapist?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
-    ]
-  },
-  {
-    "id": "ranking_100",
-    "category": "Rankings",
-    "type": "ranking",
-    "modeCompatibility": [
-      "party",
-      "case"
-    ],
-    "requiresTargetPlayer": false,
-    "targetRule": null,
-    "mainPrompt": "Who here is most likely to win this game?",
-    "offPrompt": "Who here is most likely to act innocent while lying?",
-    "answerFormat": "text",
-    "minPlayers": 3,
-    "maxPlayers": 10,
-    "safeLevel": "safe",
-    "tags": [
-      "ranking",
-      "group"
+      "numeric",
+      "player",
+      "photos"
     ]
   }
 ]
