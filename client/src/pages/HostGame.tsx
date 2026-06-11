@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Copy,
@@ -7,9 +8,13 @@ import {
   Play,
   RefreshCw,
   Send,
+  Sparkles,
   Trophy,
+  Volume2,
+  VolumeX,
   Vote,
   WifiOff,
+  Zap,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import type { HostRoomState, PublicPlayer, RoundResultView } from "@off-prompt/shared";
@@ -23,6 +28,9 @@ import { getHostSession } from "../lib/session";
 import { emitWithAck, ensureSocketConnected, socket } from "../socket/socketClient";
 
 const ANSWER_REVEAL_COUNTDOWN_SECONDS = 5;
+const HOST_SOUND_KEY = "off-prompt:host-sound";
+
+type SoundKind = "start" | "tick" | "reveal" | "vote" | "result" | "fanfare";
 
 function useTicker(active: boolean) {
   const [, setTick] = useState(0);
@@ -40,6 +48,94 @@ function progressPercent(submitted: number, total: number): number {
     return 0;
   }
   return Math.min(100, Math.round((submitted / total) * 100));
+}
+
+function useHostSound() {
+  const contextRef = useRef<AudioContext | null>(null);
+  const [enabled, setEnabled] = useState(() => localStorage.getItem(HOST_SOUND_KEY) !== "muted");
+
+  const getContext = useCallback(() => {
+    const AudioContextCtor =
+      window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextCtor) {
+      return null;
+    }
+    contextRef.current ??= new AudioContextCtor();
+    return contextRef.current;
+  }, []);
+
+  const play = useCallback(
+    (kind: SoundKind) => {
+      if (!enabled) {
+        return;
+      }
+
+      const context = getContext();
+      if (!context) {
+        return;
+      }
+
+      if (context.state === "suspended") {
+        void context.resume();
+      }
+
+      const patterns: Record<SoundKind, Array<[number, number, number]>> = {
+        start: [
+          [392, 0, 0.08],
+          [622, 0.08, 0.1],
+        ],
+        tick: [[840, 0, 0.045]],
+        reveal: [
+          [523, 0, 0.07],
+          [784, 0.08, 0.1],
+        ],
+        vote: [
+          [466, 0, 0.065],
+          [698, 0.07, 0.085],
+        ],
+        result: [
+          [330, 0, 0.08],
+          [660, 0.09, 0.1],
+          [990, 0.18, 0.12],
+        ],
+        fanfare: [
+          [392, 0, 0.08],
+          [523, 0.08, 0.1],
+          [784, 0.18, 0.14],
+          [1046, 0.32, 0.18],
+        ],
+      };
+
+      const now = context.currentTime;
+      patterns[kind].forEach(([frequency, offset, duration]) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = kind === "tick" ? "square" : "sine";
+        oscillator.frequency.setValueAtTime(frequency, now + offset);
+        gain.gain.setValueAtTime(0.0001, now + offset);
+        gain.gain.exponentialRampToValueAtTime(kind === "tick" ? 0.026 : 0.052, now + offset + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + duration);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now + offset);
+        oscillator.stop(now + offset + duration + 0.03);
+      });
+    },
+    [enabled, getContext]
+  );
+
+  const toggle = useCallback(() => {
+    setEnabled((current) => {
+      const next = !current;
+      localStorage.setItem(HOST_SOUND_KEY, next ? "on" : "muted");
+      if (next) {
+        window.setTimeout(() => play("start"), 0);
+      }
+      return next;
+    });
+  }, [play]);
+
+  return { enabled, play, toggle };
 }
 
 function isFinalPartyRound(state: HostRoomState): boolean {
@@ -90,6 +186,70 @@ function PublicPromptCard({ prompt }: { prompt: string | null }) {
     <div className="animate-panel-in rounded-lg border border-brand-cyan/35 bg-brand-blue/14 p-4 shadow-glow">
       <p className="text-xs font-black uppercase tracking-wide text-brand-cyan">Public question</p>
       <p className="mt-2 text-2xl font-black leading-tight text-white lg:text-3xl">{prompt}</p>
+    </div>
+  );
+}
+
+function SoundToggle({ enabled, onToggle }: { enabled: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="inline-flex min-h-9 items-center gap-2 rounded-full border border-brand-cyan/35 bg-white/8 px-3 py-2 text-xs font-black uppercase text-white transition hover:border-brand-cyan hover:bg-brand-cyan/12"
+      aria-label={enabled ? "Mute host sounds" : "Unmute host sounds"}
+    >
+      {enabled ? <Volume2 className="h-4 w-4 text-brand-cyan" /> : <VolumeX className="h-4 w-4 text-brand-muted" />}
+      <span className="hidden sm:inline">{enabled ? "Sound on" : "Muted"}</span>
+    </button>
+  );
+}
+
+function PhaseBanner({
+  eyebrow,
+  title,
+  body,
+  icon,
+}: {
+  eyebrow: string;
+  title: string;
+  body: string;
+  icon: ReactNode;
+}) {
+  return (
+    <div className="phase-banner rounded-lg p-4 md:p-5">
+      <div className="flex items-center gap-4">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg border border-brand-cyan/35 bg-brand-blue/28 text-brand-cyan shadow-glow">
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs font-black uppercase tracking-wide text-brand-cyan">{eyebrow}</p>
+          <h1 className="mt-1 font-display text-3xl font-black leading-none text-white md:text-4xl">{title}</h1>
+          <p className="mt-2 text-base font-semibold text-brand-muted">{body}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const CONFETTI_COLORS = ["#3ef9ff", "#8f54fd", "#0c42fd", "#f8d54a", "#ffffff"];
+
+function ConfettiBurst({ active }: { active: boolean }) {
+  if (!active) {
+    return null;
+  }
+
+  return (
+    <div className="confetti-field" aria-hidden="true">
+      {Array.from({ length: 28 }).map((_, index) => {
+        const style = {
+          "--x": `${(index * 37) % 100}%`,
+          "--c": CONFETTI_COLORS[index % CONFETTI_COLORS.length],
+          "--r": `${(index * 29) % 180}deg`,
+          "--d": `${2.5 + (index % 5) * 0.3}s`,
+          "--delay": `${(index % 9) * 0.16}s`,
+        } as CSSProperties;
+        return <span key={index} className="confetti-piece" style={style} />;
+      })}
     </div>
   );
 }
@@ -287,9 +447,13 @@ function AnsweringView({
 
   return (
     <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-      <Card className="space-y-5">
-        <StatusPill label={`Round ${round.roundNumber}`} tone="blue" />
-        <h1 className="font-display text-5xl font-black text-white md:text-7xl">Answers incoming</h1>
+      <Card className="party-card space-y-5">
+        <PhaseBanner
+          eyebrow={`Round ${round.roundNumber} - Answering`}
+          title="Answers incoming"
+          body="Phones are locking in. Watch the room for suspicious confidence."
+          icon={<Zap className="h-6 w-6" />}
+        />
         <div>
           <div className="mb-3 flex items-end justify-between">
             <p className="text-lg font-bold text-brand-muted">Submission progress</p>
@@ -346,10 +510,20 @@ function DiscussionView({ state, countdown, onStartVoting }: { state: HostRoomSt
 
   if (countdown > 0) {
     return (
-      <Card className="grid min-h-[62vh] place-items-center text-center">
-        <div>
-          <p className="text-sm font-black uppercase text-brand-cyan">Reveal in</p>
-          <p className="host-code font-display text-[12rem] font-black leading-none text-white">{countdown}</p>
+      <Card className="party-card grid min-h-[62vh] place-items-center overflow-hidden text-center">
+        <div className="space-y-6">
+          <PhaseBanner
+            eyebrow="Reveal sequence"
+            title="Answers are about to hit"
+            body="Read fast. Laugh first. Suspect second."
+            icon={<Sparkles className="h-6 w-6" />}
+          />
+          <div>
+            <p className="text-sm font-black uppercase text-brand-cyan">Reveal in</p>
+            <p key={countdown} className="countdown-pop host-code font-display text-[10rem] font-black leading-none text-white md:text-[12rem]">
+              {countdown}
+            </p>
+          </div>
         </div>
       </Card>
     );
@@ -358,9 +532,13 @@ function DiscussionView({ state, countdown, onStartVoting }: { state: HostRoomSt
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <StatusPill label={`Round ${round.roundNumber}`} tone="blue" />
-          <h1 className="mt-3 font-display text-4xl font-black text-white md:text-5xl">Read the room</h1>
+        <div className="min-w-[min(100%,36rem)] flex-1">
+          <PhaseBanner
+            eyebrow={`Round ${round.roundNumber} - Discussion`}
+            title="Read the room"
+            body="Only the public question is on screen. The Off-Prompt question stays hidden until the result."
+            icon={<Eye className="h-6 w-6" />}
+          />
         </div>
         <Button size="lg" icon={<Vote className="h-5 w-5" />} onClick={onStartVoting}>
           Start Voting
@@ -373,8 +551,8 @@ function DiscussionView({ state, countdown, onStartVoting }: { state: HostRoomSt
         {round.answers.map((answer, index) => (
           <div
             key={answer.playerId}
-            className="animate-panel-in rounded-lg border border-white/12 bg-white/8 p-4 shadow-blue"
-            style={{ animationDelay: `${index * 70}ms` }}
+            className="party-card animate-panel-in rounded-lg border border-white/12 bg-white/8 p-4 shadow-blue"
+            style={{ animationDelay: `${index * 95}ms` }}
           >
             <p className="text-sm font-black uppercase text-brand-cyan">{answer.playerName}</p>
             <p className="mt-3 text-2xl font-black leading-tight text-white md:text-3xl">{answer.answer}</p>
@@ -394,11 +572,13 @@ function VotingView({ state, onEndVoting }: { state: HostRoomState; onEndVoting:
 
   return (
     <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-      <Card className="space-y-5">
-        <StatusPill label="Vote open" tone="warning" />
-        <h1 className="font-display text-4xl font-black text-white md:text-5xl">
-          Who was {state.settings.mode === "case" ? "suspicious" : "Off Prompt"}?
-        </h1>
+      <Card className="party-card space-y-5">
+        <PhaseBanner
+          eyebrow="Voting is live"
+          title={`Who was ${state.settings.mode === "case" ? "suspicious" : "Off Prompt"}?`}
+          body="Phones decide. Green outlines mean a player has locked their vote."
+          icon={<Vote className="h-6 w-6" />}
+        />
         <PublicPromptCard prompt={round.publicPrompt} />
         <div>
           <div className="mb-3 flex items-end justify-between">
@@ -436,7 +616,7 @@ function VotingView({ state, onEndVoting }: { state: HostRoomState; onEndVoting:
         <h2 className="font-display text-3xl font-black text-white">Answer board</h2>
         <div className="grid gap-3">
           {round.answers.map((answer) => (
-            <div key={answer.playerId} className="rounded-lg border border-white/10 bg-white/7 p-4">
+            <div key={answer.playerId} className="party-card rounded-lg border border-white/10 bg-white/7 p-4">
               <p className="text-sm font-black uppercase text-brand-cyan">{answer.playerName}</p>
               <p className="mt-2 text-xl font-black text-white">{answer.answer}</p>
             </div>
@@ -469,12 +649,14 @@ function ResultView({
 
   return (
     <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr]">
-      <Card className="space-y-4">
+      <Card className="relative overflow-hidden space-y-4">
+        <ConfettiBurst active />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <StatusPill label={`Round ${result.roundNumber} result`} tone="purple" />
           <StatusPill label={pointsAwardedText(state, result)} tone={state.settings.mode === "party" ? "success" : "blue"} />
         </div>
-        <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+        <div className="phase-banner rounded-lg p-4">
+          <p className="text-xs font-black uppercase tracking-wide text-brand-cyan">Round reveal</p>
           <h1 className="font-display text-4xl font-black text-white md:text-5xl">{resultTitle(state, result)}</h1>
           <p className="mt-3 text-lg font-bold text-brand-muted">{result.outcomeText}</p>
         </div>
@@ -519,9 +701,10 @@ function ResultView({
 function GameOverView({ state, onRestart }: { state: HostRoomState; onRestart: () => void }) {
   return (
     <div className="grid gap-5 lg:grid-cols-[1fr_0.9fr]">
-      <Card className="grid place-items-center text-center">
+      <Card className="relative grid place-items-center overflow-hidden text-center">
+        <ConfettiBurst active />
         <div className="max-w-3xl space-y-5 py-8">
-          <Trophy className="mx-auto h-16 w-16 text-warning" />
+          <Trophy className="mx-auto h-16 w-16 countdown-pop text-warning" />
           <StatusPill label="Final result" tone="success" />
           <h1 className="font-display text-5xl font-black text-white md:text-7xl">{finalTitle(state)}</h1>
           <p className="text-xl font-semibold text-brand-muted">{state.finalResult?.outcomeText ?? "Game complete."}</p>
@@ -549,6 +732,7 @@ export default function HostGame() {
   const [state, setState] = useState<HostRoomState | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const { enabled: soundEnabled, play: playSound, toggle: toggleSound } = useHostSound();
 
   const revealedAt = state?.currentRound?.revealedAt;
   const revealCountdown =
@@ -558,6 +742,12 @@ export default function HostGame() {
   useTicker(revealCountdown > 0);
 
   const joinUrl = useMemo(() => `${window.location.origin}/join?room=${roomCode}`, [roomCode]);
+
+  useEffect(() => {
+    if (revealCountdown > 0) {
+      playSound("tick");
+    }
+  }, [playSound, revealCountdown]);
 
   useEffect(() => {
     if (!session) {
@@ -593,9 +783,12 @@ export default function HostGame() {
     };
   }, [session]);
 
-  async function hostAction<T>(event: string, extra: Record<string, unknown> = {}) {
+  async function hostAction<T>(event: string, extra: Record<string, unknown> = {}, sound?: SoundKind) {
     if (!session) {
       return;
+    }
+    if (sound) {
+      playSound(sound);
     }
     const response = await emitWithAck<T>(event, { roomCode, hostSessionToken: session.hostSessionToken, ...extra });
     if (!response.ok) {
@@ -615,7 +808,7 @@ export default function HostGame() {
 
   if (!session) {
     return (
-      <main className="app-bg grid min-h-screen place-items-center px-4 text-white">
+      <main className="app-bg energy-shell grid min-h-screen place-items-center px-4 text-white">
         <Card className="max-w-lg space-y-4 text-center">
           <Logo size="md" className="justify-center" />
           <h1 className="font-display text-3xl font-black text-white">Host session not found</h1>
@@ -628,7 +821,7 @@ export default function HostGame() {
 
   if (!state) {
     return (
-      <main className="app-bg grid min-h-screen place-items-center px-4 text-white">
+      <main className="app-bg energy-shell grid min-h-screen place-items-center px-4 text-white">
         <Card className="text-center">
           <Logo size="md" className="justify-center" />
           <p className="mt-5 animate-pulse-soft font-display text-3xl font-black text-white">Recovering room...</p>
@@ -639,7 +832,7 @@ export default function HostGame() {
   }
 
   return (
-    <main className="app-bg min-h-screen px-4 py-5 text-white sm:px-6 lg:px-8">
+    <main className="app-bg energy-shell min-h-screen px-4 py-5 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[1500px]">
         <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <Logo size="sm" />
@@ -647,6 +840,7 @@ export default function HostGame() {
             {copied && <StatusPill label="Copied" tone="success" />}
             {!state.hostConnected && <StatusPill label="Host disconnected" tone="warning" />}
             <StatusPill label={state.status.replace("_", " ")} tone={state.status === "game_over" ? "success" : "blue"} />
+            <SoundToggle enabled={soundEnabled} onToggle={toggleSound} />
           </div>
         </header>
 
@@ -660,25 +854,27 @@ export default function HostGame() {
           <LobbyView
             state={state}
             joinUrl={joinUrl}
-            onStart={() => hostAction("host:startGame")}
+            onStart={() => hostAction("host:startGame", {}, "start")}
             onCopy={copyJoinLink}
             onFullscreen={requestFullscreen}
           />
         )}
 
-        {state.status === "answering" && <AnsweringView state={state} onReveal={(force) => hostAction("host:revealAnswers", { force })} />}
-        {state.status === "discussion" && (
-          <DiscussionView state={state} countdown={revealCountdown} onStartVoting={() => hostAction("host:startVoting")} />
+        {state.status === "answering" && (
+          <AnsweringView state={state} onReveal={(force) => hostAction("host:revealAnswers", { force }, "reveal")} />
         )}
-        {state.status === "voting" && <VotingView state={state} onEndVoting={() => hostAction("host:endVoting")} />}
+        {state.status === "discussion" && (
+          <DiscussionView state={state} countdown={revealCountdown} onStartVoting={() => hostAction("host:startVoting", {}, "vote")} />
+        )}
+        {state.status === "voting" && <VotingView state={state} onEndVoting={() => hostAction("host:endVoting", {}, "result")} />}
         {state.status === "round_result" && (
           <ResultView
             state={state}
-            onNextRound={() => hostAction("host:nextRound")}
-            onRevealFinalWinner={() => hostAction("host:revealFinalWinner")}
+            onNextRound={() => hostAction("host:nextRound", {}, "start")}
+            onRevealFinalWinner={() => hostAction("host:revealFinalWinner", {}, "fanfare")}
           />
         )}
-        {state.status === "game_over" && <GameOverView state={state} onRestart={() => hostAction("host:restartGame")} />}
+        {state.status === "game_over" && <GameOverView state={state} onRestart={() => hostAction("host:restartGame", {}, "start")} />}
       </div>
     </main>
   );

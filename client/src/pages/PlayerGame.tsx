@@ -27,6 +27,10 @@ function syncTone(status: SyncStatus): "success" | "warning" | "danger" | "blue"
   return "warning";
 }
 
+function triggerHaptic(pattern: number | number[] = 28) {
+  navigator.vibrate?.(pattern);
+}
+
 function playerResultTitle(state: PlayerRoomState): string {
   const result = state.currentRound?.result ?? state.finalResult;
   if (!result) {
@@ -56,10 +60,12 @@ function LobbyPlayerView({
   state,
   onReady,
   onLeave,
+  pulseKey,
 }: {
   state: PlayerRoomState;
   onReady: (ready: boolean) => void;
   onLeave: () => void;
+  pulseKey: string | null;
 }) {
   return (
     <div className="space-y-4">
@@ -71,7 +77,7 @@ function LobbyPlayerView({
         </p>
         <Button
           size="lg"
-          className="w-full"
+          className={`w-full ${pulseKey === "ready" ? "tap-bounce" : ""}`}
           variant={state.player.isReady ? "secondary" : "primary"}
           icon={<CheckCircle2 className="h-5 w-5" />}
           onClick={() => onReady(!state.player.isReady)}
@@ -95,11 +101,13 @@ function PromptView({
   answer,
   setAnswer,
   onSubmit,
+  pulseKey,
 }: {
   state: PlayerRoomState;
   answer: string;
   setAnswer: (value: string) => void;
   onSubmit: () => void;
+  pulseKey: string | null;
 }) {
   const round = state.currentRound;
   if (!round) {
@@ -118,7 +126,7 @@ function PromptView({
 
   if (round.answerSubmitted) {
     return (
-      <Card className="space-y-4 text-center">
+      <Card className="locked-burst party-card space-y-4 text-center">
         <StatusPill label={`Round ${round.roundNumber}`} tone="success" />
         <h1 className="font-display text-4xl font-black text-white">Answer locked</h1>
         <p className="font-semibold text-brand-muted">Keep it casual while everyone else finishes.</p>
@@ -145,16 +153,16 @@ function PromptView({
         />
         <span className="mt-2 block text-right text-sm font-bold text-brand-muted">{answer.length}/80</span>
       </label>
-      <Button size="lg" className="w-full" icon={<Send className="h-5 w-5" />} disabled={!answer.trim()} onClick={onSubmit}>
+      <Button size="lg" className={`w-full ${pulseKey === "answer" ? "tap-bounce" : ""}`} icon={<Send className="h-5 w-5" />} disabled={!answer.trim()} onClick={onSubmit}>
         Submit Answer
       </Button>
     </Card>
   );
 }
 
-function WaitingView({ title, body }: { title: string; body: string }) {
+function WaitingView({ title, body, locked = false }: { title: string; body: string; locked?: boolean }) {
   return (
-    <Card className="space-y-4 text-center">
+    <Card className={`space-y-4 text-center ${locked ? "locked-burst party-card" : ""}`}>
       <div className="mx-auto h-3 w-24 overflow-hidden rounded-full bg-white/10">
         <div className="h-full w-1/2 animate-pulse-soft rounded-full bg-brand-cyan" />
       </div>
@@ -169,11 +177,13 @@ function VotingPlayerView({
   selectedTarget,
   setSelectedTarget,
   onVote,
+  pulseKey,
 }: {
   state: PlayerRoomState;
   selectedTarget: string | null;
   setSelectedTarget: (playerId: string) => void;
   onVote: () => void;
+  pulseKey: string | null;
 }) {
   const round = state.currentRound;
   if (!round) {
@@ -185,7 +195,7 @@ function VotingPlayerView({
   }
 
   if (round.voteSubmitted) {
-    return <WaitingView title="Vote locked" body="Watch the host screen for the reveal." />;
+    return <WaitingView title="Vote locked" body="Watch the host screen for the reveal." locked />;
   }
 
   return (
@@ -204,14 +214,14 @@ function VotingPlayerView({
               selectedTarget === player.id
                 ? "border-brand-cyan bg-brand-blue/20 shadow-glow"
                 : "border-white/10 bg-white/7 hover:border-brand-cyan/50"
-            }`}
+            } ${pulseKey === player.id ? "tap-bounce" : ""}`}
           >
             <p className="text-lg font-black text-white">{player.name}</p>
             <p className="text-sm font-semibold text-brand-muted">{player.score} pts</p>
           </button>
         ))}
       </div>
-      <Button size="lg" className="w-full" icon={<Vote className="h-5 w-5" />} disabled={!selectedTarget} onClick={onVote}>
+      <Button size="lg" className={`w-full ${pulseKey === "vote" ? "tap-bounce" : ""}`} icon={<Vote className="h-5 w-5" />} disabled={!selectedTarget} onClick={onVote}>
         Lock Vote
       </Button>
     </Card>
@@ -298,7 +308,14 @@ export default function PlayerGame() {
   const [answer, setAnswer] = useState("");
   const [selectedTarget, setSelectedTarget] = useState<string | null>(null);
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("syncing");
+  const [pulseKey, setPulseKey] = useState<string | null>(null);
   const syncInFlight = useRef(false);
+
+  const pulse = useCallback((key: string, pattern: number | number[] = 28) => {
+    setPulseKey(key);
+    triggerHaptic(pattern);
+    window.setTimeout(() => setPulseKey((current) => (current === key ? null : current)), 320);
+  }, []);
 
   const syncNow = useCallback(async () => {
     if (!session || syncInFlight.current) {
@@ -401,7 +418,16 @@ export default function PlayerGame() {
     return response.data;
   }
 
+  function manualSync() {
+    pulse("sync", 16);
+    void syncNow();
+  }
+
   async function submitAnswer() {
+    if (!answer.trim()) {
+      return;
+    }
+    pulse("answer", 35);
     await playerAction("player:submitAnswer", { answer });
     setAnswer("");
   }
@@ -410,7 +436,18 @@ export default function PlayerGame() {
     if (!selectedTarget) {
       return;
     }
+    pulse("vote", [20, 30, 20]);
     await playerAction("player:submitVote", { targetPlayerId: selectedTarget });
+  }
+
+  function setReady(isReady: boolean) {
+    pulse("ready", 22);
+    void playerAction("player:setReady", { isReady });
+  }
+
+  function selectVoteTarget(playerId: string) {
+    pulse(playerId, 14);
+    setSelectedTarget(playerId);
   }
 
   async function leaveRoom() {
@@ -421,7 +458,7 @@ export default function PlayerGame() {
 
   if (!session) {
     return (
-      <main className="app-bg grid min-h-screen place-items-center px-4 text-white">
+      <main className="app-bg energy-shell grid min-h-screen place-items-center px-4 text-white">
         <Card className="max-w-md space-y-4 text-center">
           <Logo size="md" className="justify-center" />
           <h1 className="font-display text-3xl font-black text-white">Join needed</h1>
@@ -436,13 +473,13 @@ export default function PlayerGame() {
 
   if (!state) {
     return (
-      <main className="app-bg grid min-h-screen place-items-center px-4 text-white">
+      <main className="app-bg energy-shell grid min-h-screen place-items-center px-4 text-white">
         <Card className="space-y-4 text-center">
           <Logo size="md" className="justify-center" />
           <p className="animate-pulse-soft font-display text-3xl font-black text-white">Rejoining...</p>
           <StatusPill label={syncLabel(syncStatus)} tone={syncTone(syncStatus)} />
           {error && <p className="font-semibold text-danger">{error}</p>}
-          <Button variant="secondary" icon={<RefreshCw className="h-4 w-4" />} onClick={syncNow}>
+          <Button variant="secondary" icon={<RefreshCw className="h-4 w-4" />} onClick={manualSync}>
             Sync Now
           </Button>
           <Link to={`/join?room=${roomCode}`}>
@@ -454,7 +491,7 @@ export default function PlayerGame() {
   }
 
   return (
-    <main className="app-bg min-h-screen px-4 py-5 text-white">
+    <main className="app-bg energy-shell min-h-screen px-4 py-5 text-white">
       <div className="mx-auto max-w-md">
         <header className="mb-5 flex items-center justify-between gap-3">
           <Logo size="sm" showWordmark={false} />
@@ -464,8 +501,8 @@ export default function PlayerGame() {
             <button
               type="button"
               aria-label="Sync player screen"
-              onClick={syncNow}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-cyan/35 bg-white/8 text-brand-cyan transition hover:border-brand-cyan hover:bg-brand-cyan/12 disabled:opacity-50"
+              onClick={manualSync}
+              className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-cyan/35 bg-white/8 text-brand-cyan transition hover:border-brand-cyan hover:bg-brand-cyan/12 disabled:opacity-50 ${pulseKey === "sync" ? "tap-bounce" : ""}`}
               disabled={syncStatus === "syncing"}
             >
               <RefreshCw className={`h-4 w-4 ${syncStatus === "syncing" ? "animate-spin" : ""}`} />
@@ -482,12 +519,13 @@ export default function PlayerGame() {
         {state.status === "lobby" && (
           <LobbyPlayerView
             state={state}
-            onReady={(isReady) => playerAction("player:setReady", { isReady })}
+            onReady={setReady}
             onLeave={leaveRoom}
+            pulseKey={pulseKey}
           />
         )}
         {state.status === "answering" && (
-          <PromptView state={state} answer={answer} setAnswer={setAnswer} onSubmit={submitAnswer} />
+          <PromptView state={state} answer={answer} setAnswer={setAnswer} onSubmit={submitAnswer} pulseKey={pulseKey} />
         )}
         {state.status === "discussion" && (
           <WaitingView title="Defend that answer" body="The host screen has the board. Talk it out." />
@@ -496,8 +534,9 @@ export default function PlayerGame() {
           <VotingPlayerView
             state={state}
             selectedTarget={selectedTarget}
-            setSelectedTarget={setSelectedTarget}
+            setSelectedTarget={selectVoteTarget}
             onVote={submitVote}
+            pulseKey={pulseKey}
           />
         )}
         {state.status === "round_result" && <ResultPlayerView state={state} />}
