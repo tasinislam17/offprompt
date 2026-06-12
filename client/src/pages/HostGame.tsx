@@ -28,6 +28,7 @@ import { getHostSession } from "../lib/session";
 import { emitWithAck, ensureSocketConnected, socket } from "../socket/socketClient";
 
 const ANSWER_REVEAL_COUNTDOWN_SECONDS = 5;
+const ANSWER_REVEAL_QUESTION_INTRO_SECONDS = 2;
 const HOST_SOUND_KEY = "off-prompt:host-sound";
 
 type SoundKind = "start" | "tick" | "reveal" | "vote" | "result" | "fanfare";
@@ -502,28 +503,58 @@ function AnsweringView({
   );
 }
 
-function DiscussionView({ state, countdown, onStartVoting }: { state: HostRoomState; countdown: number; onStartVoting: () => void }) {
+function DiscussionView({
+  state,
+  countdown,
+  isQuestionIntro,
+  onStartVoting,
+}: {
+  state: HostRoomState;
+  countdown: number;
+  isQuestionIntro: boolean;
+  onStartVoting: () => void;
+}) {
   const round = state.currentRound;
   if (!round) {
     return null;
   }
 
-  if (countdown > 0) {
+  if (isQuestionIntro || countdown > 0) {
     return (
-      <Card className="party-card grid min-h-[62vh] place-items-center overflow-hidden text-center">
-        <div className="space-y-6">
-          <PhaseBanner
-            eyebrow="Reveal sequence"
-            title="Answers are about to hit"
-            body="Read fast. Laugh first. Suspect second."
-            icon={<Sparkles className="h-6 w-6" />}
-          />
-          <div>
-            <p className="text-sm font-black uppercase text-brand-cyan">Reveal in</p>
-            <p key={countdown} className="countdown-pop host-code font-display text-[10rem] font-black leading-none text-white md:text-[12rem]">
-              {countdown}
+      <Card className="party-card grid min-h-[62vh] place-items-center overflow-hidden">
+        <div className="w-full max-w-5xl space-y-5 text-center">
+          <div className="phase-banner rounded-lg p-4 text-center md:p-5">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-brand-cyan/35 bg-brand-blue/28 text-brand-cyan shadow-glow">
+              <Sparkles className="h-6 w-6" />
+            </div>
+            <p className="mt-3 text-xs font-black uppercase tracking-wide text-brand-cyan">
+              {isQuestionIntro ? "Public question unlocked" : "Reveal sequence"}
+            </p>
+            <h1 className="mt-1 font-display text-3xl font-black leading-none text-white md:text-4xl">
+              {isQuestionIntro ? "Read this first" : "Answers are about to hit"}
+            </h1>
+            <p className="mt-2 text-base font-semibold text-brand-muted">
+              {isQuestionIntro
+                ? "Everyone gets the on-prompt question before the board drops."
+                : "Keep this question in mind while the answers land."}
             </p>
           </div>
+          <PublicPromptCard prompt={round.publicPrompt} />
+          {isQuestionIntro ? (
+            <div className="mx-auto max-w-md rounded-lg border border-white/10 bg-white/7 p-4">
+              <p className="text-sm font-black uppercase tracking-wide text-brand-cyan">Countdown starts next</p>
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full w-2/3 animate-pulse-soft rounded-full bg-gradient-to-r from-brand-blue to-brand-cyan" />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="text-sm font-black uppercase text-brand-cyan">Answers reveal in</p>
+              <p key={countdown} className="countdown-pop host-code font-display text-[10rem] font-black leading-none text-white md:text-[12rem]">
+                {countdown}
+              </p>
+            </div>
+          )}
         </div>
       </Card>
     );
@@ -735,19 +766,27 @@ export default function HostGame() {
   const { enabled: soundEnabled, play: playSound, toggle: toggleSound } = useHostSound();
 
   const revealedAt = state?.currentRound?.revealedAt;
+  const revealElapsedSeconds =
+    revealedAt && state.currentRound?.status === "discussion" ? (Date.now() - revealedAt) / 1000 : null;
+  const isRevealQuestionIntro =
+    revealElapsedSeconds !== null && revealElapsedSeconds < ANSWER_REVEAL_QUESTION_INTRO_SECONDS;
   const revealCountdown =
-    revealedAt && state.currentRound?.status === "discussion"
-      ? Math.max(0, ANSWER_REVEAL_COUNTDOWN_SECONDS - Math.floor((Date.now() - revealedAt) / 1000))
+    revealElapsedSeconds !== null
+      ? Math.max(
+          0,
+          ANSWER_REVEAL_COUNTDOWN_SECONDS -
+            Math.floor(Math.max(0, revealElapsedSeconds - ANSWER_REVEAL_QUESTION_INTRO_SECONDS))
+        )
       : 0;
-  useTicker(revealCountdown > 0);
+  useTicker(isRevealQuestionIntro || revealCountdown > 0);
 
   const joinUrl = useMemo(() => `${window.location.origin}/join?room=${roomCode}`, [roomCode]);
 
   useEffect(() => {
-    if (revealCountdown > 0) {
+    if (!isRevealQuestionIntro && revealCountdown > 0) {
       playSound("tick");
     }
-  }, [playSound, revealCountdown]);
+  }, [isRevealQuestionIntro, playSound, revealCountdown]);
 
   useEffect(() => {
     if (!session) {
@@ -864,7 +903,12 @@ export default function HostGame() {
           <AnsweringView state={state} onReveal={(force) => hostAction("host:revealAnswers", { force }, "reveal")} />
         )}
         {state.status === "discussion" && (
-          <DiscussionView state={state} countdown={revealCountdown} onStartVoting={() => hostAction("host:startVoting", {}, "vote")} />
+          <DiscussionView
+            state={state}
+            countdown={revealCountdown}
+            isQuestionIntro={isRevealQuestionIntro}
+            onStartVoting={() => hostAction("host:startVoting", {}, "vote")}
+          />
         )}
         {state.status === "voting" && <VotingView state={state} onEndVoting={() => hostAction("host:endVoting", {}, "result")} />}
         {state.status === "round_result" && (
