@@ -88,24 +88,23 @@ describe("prompt rendering", () => {
 });
 
 describe("prompt selection", () => {
-  it("can filter eligible prompts by vibe", () => {
-    const roastPrompt: PromptPair = {
+  it("selects any eligible prompt regardless of safety metadata or vibe", () => {
+    const metadataPrompt: PromptPair = {
       ...prompt,
-      id: "test_roast_001",
+      id: "test_metadata_001",
+      safeLevel: "adult",
       vibe: "roast",
       mainPrompt: "Name something everyone pretends to understand.",
       offPrompt: "Name something people explain with total fake confidence.",
     };
 
     const selected = selectPromptPair({
-      prompts: [prompt, roastPrompt],
+      prompts: [metadataPrompt],
       mode: "party",
       activePlayerCount: 3,
-      safeLevel: "safe",
-      vibe: "roast",
     });
 
-    expect(selected.id).toBe(roastPrompt.id);
+    expect(selected.id).toBe(metadataPrompt.id);
   });
 });
 
