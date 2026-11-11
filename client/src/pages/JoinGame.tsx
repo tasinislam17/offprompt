@@ -120,7 +120,7 @@ export default function JoinGame() {
   }
 
   return (
-    <main className="app-bg grid min-h-screen place-items-center px-4 py-6 text-white">
+    <main className="app-bg relative grid min-h-screen place-items-center overflow-hidden px-4 py-6 text-white">
       <div className="w-full max-w-md">
         <div className="mb-6 flex items-center justify-between">
           <Logo size="sm" />
@@ -147,7 +147,7 @@ export default function JoinGame() {
                     setQrError(null);
                     setScannerOpen(true);
                   }}
-                  className="inline-flex items-center gap-1 rounded-full border border-brand-cyan/35 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase text-brand-cyan transition hover:border-brand-cyan hover:bg-brand-cyan/16"
+                  className="inline-flex min-h-10 items-center gap-1 rounded-xl border border-brand-cyan/35 bg-brand-cyan/10 px-3 py-2 text-xs font-black uppercase tracking-wide text-brand-cyan transition hover:border-brand-cyan hover:bg-brand-cyan/16"
                 >
                   <Camera className="h-3.5 w-3.5" />
                   Scan QR
@@ -157,7 +157,7 @@ export default function JoinGame() {
                 value={roomCode}
                 onChange={(event) => setRoomCode(normalizeRoomCode(event.target.value))}
                 maxLength={6}
-                className="h-14 w-full rounded-lg border border-white/12 bg-white/8 px-4 text-center font-display text-3xl font-black uppercase text-white outline-none transition focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30"
+                className="h-16 w-full rounded-2xl border border-white/15 bg-[#17162a] px-4 text-center font-display text-3xl font-black uppercase tracking-[.2em] text-white outline-none transition focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30"
                 placeholder="ABCD5"
                 autoCapitalize="characters"
                 aria-label="Room code"
@@ -171,7 +171,7 @@ export default function JoinGame() {
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 maxLength={20}
-                className="h-14 w-full rounded-lg border border-white/12 bg-white/8 px-4 text-lg font-bold text-white outline-none transition placeholder:text-brand-muted/60 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30"
+                className="h-14 w-full rounded-2xl border border-white/15 bg-[#17162a] px-4 text-lg font-bold text-white outline-none transition placeholder:text-brand-muted/60 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30"
                 placeholder="Your name"
               />
             </label>
@@ -205,7 +205,7 @@ export default function JoinGame() {
                 <button
                   type="button"
                   onClick={() => setScannerOpen(false)}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/8 text-brand-muted transition hover:text-white"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-brand-muted transition hover:text-white"
                   aria-label="Close QR scanner"
                 >
                   <X className="h-5 w-5" />

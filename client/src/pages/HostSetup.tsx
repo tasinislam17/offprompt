@@ -24,7 +24,7 @@ function NumberStepper({
   onChange: (value: number) => void;
 }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+    <div className="rounded-2xl border border-white/10 bg-[#211f3a] p-4 shadow-blue">
       <div className="mb-3 flex items-center justify-between">
         <p className="font-bold text-white">{label}</p>
         <p className="font-display text-3xl font-black text-brand-cyan">{value}</p>
@@ -61,7 +61,7 @@ function DiscussionControl({
   const timedValue = value === 0 ? 90 : value;
 
   return (
-    <div className="rounded-lg border border-white/10 bg-white/7 p-4">
+    <div className="rounded-2xl border border-white/10 bg-[#211f3a] p-4 shadow-blue">
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="font-bold text-white">Discussion</p>
         <p className="font-display text-2xl font-black text-brand-cyan">
@@ -72,10 +72,10 @@ function DiscussionControl({
         <button
           type="button"
           onClick={() => onChange(0)}
-          className={`min-h-11 rounded-lg border px-3 py-2 font-black uppercase transition ${
+          className={`min-h-11 rounded-xl border px-3 py-2 font-black uppercase tracking-wide transition ${
             value === 0
-              ? "border-brand-cyan bg-brand-cyan/14 text-white"
-              : "border-white/10 bg-white/7 text-brand-muted hover:border-brand-cyan/50"
+              ? "border-brand-cyan bg-brand-cyan/14 text-white shadow-glow"
+              : "border-white/10 bg-[#211f3a] text-brand-muted hover:border-brand-cyan/50"
           }`}
         >
           Unlimited
@@ -83,10 +83,10 @@ function DiscussionControl({
         <button
           type="button"
           onClick={() => onChange(timedValue)}
-          className={`min-h-11 rounded-lg border px-3 py-2 font-black uppercase transition ${
+          className={`min-h-11 rounded-xl border px-3 py-2 font-black uppercase tracking-wide transition ${
             value !== 0
-              ? "border-brand-cyan bg-brand-cyan/14 text-white"
-              : "border-white/10 bg-white/7 text-brand-muted hover:border-brand-cyan/50"
+              ? "border-brand-cyan bg-brand-cyan/14 text-white shadow-glow"
+              : "border-white/10 bg-[#211f3a] text-brand-muted hover:border-brand-cyan/50"
           }`}
         >
           Timed
@@ -198,10 +198,10 @@ export default function HostSetup() {
                 key={mode}
                 type="button"
                 onClick={() => update({ mode })}
-                className={`rounded-lg border p-4 text-left transition ${
+                className={`rounded-2xl border p-4 text-left transition ${
                   settings.mode === mode
-                    ? "border-brand-cyan bg-brand-blue/18 shadow-glow"
-                    : "border-white/10 bg-white/7 hover:border-brand-cyan/50"
+                    ? "border-brand-cyan bg-gradient-to-br from-brand-cyan/15 to-brand-purple/15 shadow-glow"
+                    : "border-white/10 bg-[#211f3a] hover:border-brand-cyan/50"
                 }`}
               >
                 <div className="flex items-center justify-between gap-3">
