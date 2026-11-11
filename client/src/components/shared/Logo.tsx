@@ -22,7 +22,7 @@ export function Logo({ size = "md", showWordmark = true, className }: LogoProps)
         <div>
           <p
             className={clsx(
-              "font-display font-black uppercase text-white",
+              "font-display font-black tracking-tight text-white",
               size === "sm" && "text-lg",
               size === "md" && "text-2xl",
               size === "lg" && "text-4xl md:text-5xl"
@@ -30,8 +30,8 @@ export function Logo({ size = "md", showWordmark = true, className }: LogoProps)
           >
             Off Prompt
           </p>
-          <p className="text-xs font-bold uppercase text-brand-cyan">
-            Social deduction
+          <p className="text-[10px] font-extrabold uppercase tracking-[.18em] text-brand-cyan">
+            The party game
           </p>
         </div>
       )}

@@ -90,7 +90,7 @@ function HostDemo({ activeStep }: { activeStep: DemoStep }) {
   const showReveal = activeStep.id === "reveal";
 
   return (
-    <div className="min-w-0 rounded-lg border border-white/12 bg-[#060a22]/90 p-4 shadow-blue">
+    <div className="min-w-0 rounded-2xl border border-white/12 bg-gradient-to-br from-[#211f3a] to-[#17172c] p-4 shadow-blue">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase text-brand-cyan">Host screen</p>
@@ -164,7 +164,7 @@ function PhoneDemo({ activeStep }: { activeStep: DemoStep }) {
       : "Answer naturally. The room will only see what you write.";
 
   return (
-    <div className="mx-auto w-full max-w-[320px] rounded-[2rem] border border-brand-cyan/25 bg-black/70 p-3 shadow-glow">
+    <div className="mx-auto w-full max-w-[320px] rounded-[2rem] border border-brand-cyan/25 bg-[#131222] p-3 shadow-glow">
       <div className="rounded-[1.45rem] border border-white/10 bg-brand-deep p-4">
         <div className="mb-4 flex items-center justify-between">
           <div className="h-2 w-16 rounded-full bg-white/14" />
@@ -262,8 +262,8 @@ function ModeCard({
     <button
       type="button"
       onClick={onClick}
-      className={`min-w-0 rounded-lg border p-4 text-left transition ${
-        active ? "border-brand-cyan bg-brand-blue/18 shadow-glow" : "border-white/10 bg-white/7 hover:border-brand-cyan/50"
+      className={`min-w-0 rounded-2xl border p-4 text-left transition ${
+        active ? "border-brand-cyan bg-gradient-to-br from-brand-cyan/15 to-brand-purple/15 shadow-glow" : "border-white/10 bg-[#211f3a] hover:border-brand-cyan/50"
       }`}
     >
       <div className="mb-3 flex items-center justify-between gap-3">
@@ -338,10 +338,10 @@ export default function HowToPlay() {
                     setActiveIndex(index);
                     setIsPlaying(false);
                   }}
-                  className={`group w-full min-w-0 rounded-lg border p-4 text-left transition ${
+                  className={`group w-full min-w-0 rounded-2xl border p-4 text-left transition ${
                     activeStep.id === step.id
-                      ? "border-brand-cyan bg-brand-blue/18 shadow-glow"
-                      : "border-white/10 bg-white/7 hover:border-brand-cyan/50"
+                      ? "border-brand-cyan bg-gradient-to-r from-brand-cyan/15 to-brand-purple/15 shadow-glow"
+                      : "border-white/10 bg-[#211f3a] hover:border-brand-cyan/50"
                   }`}
                 >
                   <div className="flex items-start gap-3">
