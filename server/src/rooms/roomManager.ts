@@ -112,6 +112,36 @@ export class RoomManager {
     return { ...defaultSettings };
   }
 
+  /** A JSON-safe snapshot used by the Cloudflare Durable Object adapter. */
+  exportSnapshot(): Array<Omit<RoomState, "players" | "usedPromptPairIds" | "criminalPlayerIds"> & {
+    players: Array<[string, PlayerState]>;
+    usedPromptPairIds: string[];
+    criminalPlayerIds: string[];
+  }> {
+    return Array.from(this.rooms.values(), (room) => ({
+      ...room,
+      players: Array.from(room.players.entries()),
+      usedPromptPairIds: Array.from(room.usedPromptPairIds),
+      criminalPlayerIds: Array.from(room.criminalPlayerIds),
+    }));
+  }
+
+  restoreSnapshot(snapshot: Array<Omit<RoomState, "players" | "usedPromptPairIds" | "criminalPlayerIds"> & {
+    players: Array<[string, PlayerState]>;
+    usedPromptPairIds: string[];
+    criminalPlayerIds: string[];
+  }>): void {
+    this.rooms.clear();
+    for (const room of snapshot) {
+      this.rooms.set(room.roomCode, {
+        ...room,
+        players: new Map(room.players),
+        usedPromptPairIds: new Set(room.usedPromptPairIds),
+        criminalPlayerIds: new Set(room.criminalPlayerIds),
+      });
+    }
+  }
+
   getRoom(roomCode: string): RoomState | null {
     return this.rooms.get(normalizeRoomCode(roomCode)) ?? null;
   }

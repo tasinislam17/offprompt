@@ -89,7 +89,7 @@ Manual multiplayer coverage is in `docs/TESTING_CHECKLIST.md`.
 
 ## Deployment
 
-The cheapest simple path is one long-running Node web service that supports WebSockets. See `docs/DEPLOYMENT.md`.
+Deploy to Cloudflare Workers with Durable Objects for multiplayer, or use a long-running Node service such as Render/Railway. See `docs/DEPLOYMENT.md` for both setup paths.
 
 Build command:
 
