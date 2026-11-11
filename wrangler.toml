@@ -1,0 +1,7 @@
+name = "off-prompt"
+main = "server/dist/index.js"
+compatibility_date = "2026-11-11"
+
+[assets]
+directory = "./client/dist"
+binding = "ASSETS"
