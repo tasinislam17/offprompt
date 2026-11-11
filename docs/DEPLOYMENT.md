@@ -2,6 +2,26 @@
 
 This app should deploy as one long-running Node web service. Do not split the frontend and backend for the first release unless you also keep a native WebSocket server online.
 
+## Cloudflare Workers Setup
+
+The Cloudflare adapter serves the built React app from Workers Static Assets and handles multiplayer over native WebSockets in a Durable Object. All rooms currently share one Durable Object instance so the existing room manager and event flow remain consistent; this is suitable for the current small game, but a larger deployment should shard rooms across Durable Objects.
+
+1. In Cloudflare, create a Worker using Git integration and connect this repository.
+2. Keep the repository root as the project root.
+3. Use `npm run build` as the build command and `npx wrangler deploy` as the deploy command.
+4. Leave `wrangler.toml` as the Worker configuration. It binds the static asset directory and declares the Durable Object migration.
+5. Deploy, then visit `/health` and create a room. The `/socket` WebSocket route and the app assets are served by the same Worker.
+
+For local preview, run:
+
+```bash
+npm run dev:cloudflare
+```
+
+Cloudflare Workers keeps room state in Durable Object storage. Active sockets reconnect through the app's existing host/player recovery events. A deploy does not depend on a separate Node server or Socket.IO service.
+
+The default Worker routes all rooms through a single Durable Object. This preserves live multiplayer across isolates and restarts, but it is a deliberate first scale limit. The migration uses a SQLite-backed Durable Object class; do not remove or rename its `v1` migration after it has been deployed.
+
 ## Recommended Cheapest Practical Path
 
 Use Render for the first public deployment:
