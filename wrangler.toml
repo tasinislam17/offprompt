@@ -16,3 +16,7 @@ class_name = "GameDurableObject"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["GameDurableObject"]
+
+[[previews.durable_objects.bindings]]
+name = "GAME"
+class_name = "GameDurableObject"
